@@ -22,12 +22,6 @@ jobs:
           
           mkdir -p /home/app/out/
           cd src && g++ -DDOUBLE_PRECISION -Wno-write-strings -fPIC -shared *.cpp -o /home/app/out/libuser.so 
-      - name: Lint according to Google Guidelines
-        run: |
-          set -e    
-          pip install cpplint
-
-          cpplint src/*
 
   create_release:
     name: Create Release
