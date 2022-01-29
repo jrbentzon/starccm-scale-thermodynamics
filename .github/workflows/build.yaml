@@ -12,10 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: gcc:11-bullseye
-      credentials:
-        username: ${{ secrets.AZCR_PROD_USER }}
-        password: ${{ secrets.AZCR_PROD_TOKEN }}
-      options: -u root -w /home/app/ --mount type=tmpfs,destination=/home/app/
+      options: -w /home/app/ --mount type=tmpfs,destination=/home/app/
 
     steps:
       - uses: actions/checkout@v2
