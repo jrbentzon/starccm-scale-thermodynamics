@@ -25,12 +25,12 @@ SOFTWARE.
 #ifndef CHEMISTRY_H
 #define CHEMISTRY_H
 
-#include "ChemistryFunctions.H"
+#include "functions.H"
 #include "uclib.h"
 #include "math.h"
 #include <cstdlib>
 
-class reaction
+class BariteReaction
 {
 public:
     const Real sigma;
@@ -48,17 +48,6 @@ public:
     const Real log_k = -9.87; // FROM PREEQC
     const Real delta_h = 6.35 * 4186.80;
     const Real analytical_expression[4] = {-282.43, -8.972e-2, 5822, 113.08};
-
-    // const Real K = pow(10.0, log_k);
-
-    // Real DeltaG0_A; //J/mol
-    // Real DeltaH0_A; //J/mol
-
-    // Real DeltaG0_B; //J/mol
-    // Real DeltaH0_B; //J/mol
-
-    // Real DeltaG0_P; //J/mol
-    // Real DeltaH0_P; //J/mol
 
     const Real MolarMass;
 
@@ -83,7 +72,7 @@ public:
     const Real DrivingMolalitySmoothingGap = 1e-8; // molality used for derivatives - not a physical property
 
     // Constructor
-    reaction(Real nu_A, Real nu_B, Real nu_P, Real Z_A, Real Z_B) : SMALL(1e-16),
+    BariteReaction(Real nu_A, Real nu_B, Real nu_P, Real Z_A, Real Z_B) : SMALL(1e-16),
                                                                     R(ChemistryFunctions::R()),
                                                                     T0(ChemistryFunctions::T0()),
                                                                     pi(3.14159265358979323846),
@@ -109,17 +98,6 @@ public:
                                                                     rho(2710),
                                                                     An(1)
     {
-        // DeltaG0_A = -560.77e3; //J/mol
-        // DeltaH0_A = -537.64e3; //J/mol
-
-        // DeltaG0_B = -744.530e3; //J/mol
-        // DeltaH0_B =  -909.27e3; //J/mol
-
-        // DeltaG0_P = -1362.2e3; //J/mol
-        // DeltaH0_P = -1473.2e3; //J/mol
-
-        // DeltaG0 = DeltaG0_A * nu_A + DeltaG0_B * nu_B + DeltaG0_P * nu_P;
-        // DeltaH0 = DeltaH0_A * nu_A + DeltaH0_B * nu_B + DeltaH0_P * nu_P;
     }
 
     // Mean Molarity

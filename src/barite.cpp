@@ -27,101 +27,101 @@ SOFTWARE.
 #include <cstdlib>
 #include "uclib.h"
 
-#include "reaction.H"
+#include "barite.H"
 
 using namespace std;
 
-const reaction getBaSO4Reaction()
+const BariteReaction getBaSO4Reaction()
 {
     const Real nu_A = 1;
     const Real nu_B = 1;
     const Real nu_P = -1;
     const Real Z_A = 2;
     const Real Z_B = -2;
-    return reaction(nu_A, nu_B, nu_P, Z_A, Z_B);
+    return BariteReaction(nu_A, nu_B, nu_P, Z_A, Z_B);
 }
 
 void DebyeHuckelActivity(Real *result, int size, Real *Temperature, Real *mA, Real *mB, Real *yEtc_1, Real *yEtc_2)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.DebyeHuckelActivity(result, size, Temperature, yEtc_1, yEtc_2);
 }
 
 void DebyeHuckelSaturationIndex(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.DebyeHuckelSaturationIndex(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
 }
 
 void EquilibriumConstant(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.Equilibrium(result, size, Temperature);
 }
 
 void PitzerActivity(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.pitzerActivityCoefficient(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
 }
 void PitzerSaturationIndex(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.PitzerSaturationIndex(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
 }
 
 void IonicStrength(Real *result, int size, Real *yEtc_1, Real *yEtc_2)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.IonicStrength(result, size, yEtc_1, yEtc_2);
 }
 
 void MeanMolality(Real *result, int size, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.MeanMolality(result, size, yA, yB, yEtc_1, yEtc_2);
 }
 
 void ExtendedDebyeHuckelNucleationRate(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     const Real (reaction::*SatFunctionPointer)(Real, Real, Real, Real, Real) = &reaction::ExtendedDebyeHuckelSaturationIndex;
     React.NucleationRate(result, size, Temperature, yA, yB, yEtc_1, yEtc_2, &React, SatFunctionPointer);
 }
 
 void ExtendedDebyeHuckelWallReactionRateMolality(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2, Real *SaturationIndex, Real *WallDistance)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.WallReactionRateMolality(result, size, Temperature, yA, yB, yEtc_1, yEtc_2, SaturationIndex, WallDistance);
 }
 
 void ExtendedDebyeHuckelWallReactionRateMoleFraction(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2, Real *SaturationIndex, Real *WallDistance)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.WallReactionRateMoleFraction(result, size, Temperature, yA, yB, yEtc_1, yEtc_2, SaturationIndex, WallDistance);
 }
 
 void ExtendedDebyeHuckelWallReactionRateDerivativeAMoleFraction(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2, Real *SaturationIndex, Real *WallDistance)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.DebyeHuckelWallReactionDerivativeA(result, size, Temperature, yA, yB, yEtc_1, yEtc_2, SaturationIndex, WallDistance);
 }
 
 void ExtendedDebyeHuckelWallReactionRateDerivativeBMoleFraction(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2, Real *SaturationIndex, Real *WallDistance)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.DebyeHuckelWallReactionDerivativeB(result, size, Temperature, yA, yB, yEtc_1, yEtc_2, SaturationIndex, WallDistance);
 }
 
 void WallConcentrationA(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.PitzerWallConcentrationA(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
 }
 
 void WallConcentrationB(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    reaction React = getBaSO4Reaction();
+    BariteReaction React = getBaSO4Reaction();
     React.PitzerWallConcentrationB(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
 }
 
@@ -205,7 +205,6 @@ void uclib()
     ucarg((void *)PitzerSaturationIndex, "Cell", "$yEtc_1-", sizeof(Real));
     ucarg((void *)PitzerSaturationIndex, "Cell", "$yEtc_2-", sizeof(Real));
 
-
     ucfunc((void *)WallConcentrationA, "ScalarFieldFunction", "Pitzer Diff Model Wall mBa_2+");
     ucarg((void *)WallConcentrationA, "Cell", "Temperature", sizeof(Real));
     ucarg((void *)WallConcentrationA, "Cell", "$yBa_2+", sizeof(Real));
@@ -219,16 +218,4 @@ void uclib()
     ucarg((void *)WallConcentrationB, "Cell", "$ySO4_2-", sizeof(Real));
     ucarg((void *)WallConcentrationB, "Cell", "$yEtc_1-", sizeof(Real));
     ucarg((void *)WallConcentrationB, "Cell", "$yEtc_2-", sizeof(Real));
-
-    // ucfunc((void *)dmdt, "ScalarFieldFunction", "dmdt");
-    // ucarg((void *)dmdt, "Cell", "Temperature", sizeof(Real));
-    // ucarg((void *)dmdt, "Cell", "$MolarConcentrationCa+2", sizeof(double));
-    // ucarg((void *)dmdt, "Cell", "$MolarConcentrationHCO3-", sizeof(Real));
-    // ucarg((void *)dmdt, "Cell", "$MolarConcentrationETC", sizeof(Real));
-
-    // ucfunc((void *)ActivityCorrectedEquilibrium, "ScalarFieldFunction", "ActivityCorrectedEquilibrium");
-    // ucarg((void *)ActivityCorrectedEquilibrium, "Cell", "Temperature", sizeof(Real));
-    // ucarg((void *)ActivityCorrectedEquilibrium, "Cell", "$MolarConcentrationCa+2", sizeof(double));
-    // ucarg((void *)ActivityCorrectedEquilibrium, "Cell", "$MolarConcentrationHCO3-", sizeof(Real));
-    // ucarg((void *)ActivityCorrectedEquilibrium, "Cell", "$MolarConcentrationETC", sizeof(Real));
 }

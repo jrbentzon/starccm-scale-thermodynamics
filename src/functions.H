@@ -30,7 +30,6 @@ namespace ChemistryFunctions
 
 static const Real k_b()
 {
-
     return 1.38064852e-23;
 }
 
