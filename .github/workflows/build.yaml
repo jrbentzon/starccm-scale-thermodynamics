@@ -54,7 +54,7 @@ jobs:
           
           mkdir -p /usr/src/app/out
           cd src && g++ -DDOUBLE_PRECISION -Wno-write-strings -fPIC -shared *.cpp -o /usr/src/app/out/libuser.so 
-      - name: Publish distribution 📦 to github
+      - name: Publish library
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
