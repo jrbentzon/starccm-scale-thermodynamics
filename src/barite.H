@@ -133,24 +133,6 @@ public:
         }
     }
 
-    // Debye Huckel Derivative of Wall Reaction to mA
-    const void DebyeHuckelWallReactionDerivativeA(Real *wallReactionRateDerivativeA, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, Real *SaturationIndex, Real *WallDistance)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            wallReactionRateDerivativeA[i] = DebyeHuckelWallReactionDerivativeA(Temperature[i], yA[i], yB[i], yEtc1[i], yEtc2[i], WallDistance[i], SaturationIndex[i]);
-        }
-    }
-
-    // Debye Huckel Derivative of Wall Reaction to mB
-    const void DebyeHuckelWallReactionDerivativeB(Real *wallReactionRateDerivativeA, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, Real *SaturationIndex, Real *WallDistance)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            wallReactionRateDerivativeA[i] = DebyeHuckelWallReactionDerivativeA(Temperature[i], yA[i], yB[i], yEtc1[i], yEtc2[i], WallDistance[i], SaturationIndex[i]);
-        }
-    }
-
     // Pitzers activitity coeff
     const void pitzerActivityCoefficient(Real *gamma, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
     {
@@ -181,7 +163,7 @@ public:
     }
 
     // Nucleation Rates
-    const void NucleationRate(Real *nucleationRate, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, reaction *obj, const Real (BariteReaction::*SaturationIndexFunction)(Real, Real, Real, Real, Real))
+    const void NucleationRate(Real *nucleationRate, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, BariteReaction *obj, const Real (BariteReaction::*SaturationIndexFunction)(Real, Real, Real, Real, Real))
     {
         Real S;
         for (int i = 0; i < size; i++)
@@ -218,24 +200,6 @@ public:
         }
     }
 
-    // Saturation Index Function
-    const void DebyeHuckelSaturationIndex(Real *saturationIndex, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            saturationIndex[i] = DebyeHuckelSaturationIndex(Temperature[i], yA[i], yB[i], yEtc1[i], yEtc2[i]);
-        }
-    }
-
-    // Saturation Index Function
-    const void ExtendedDebyeHuckelSaturationIndex(Real *saturationIndex, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            saturationIndex[i] = ExtendedDebyeHuckelSaturationIndex(Temperature[i], yA[i], yB[i], yEtc1[i], yEtc2[i]);
-        }
-    }
-
     // Thermodynamic Equilibrium.
     const void ActivityCorrectedEquilibrium(Real *correctedEquilibrium, int size, Real *equilibrium, Real *activity)
     {
@@ -246,26 +210,7 @@ public:
         }
     }
 
-    // Extended Debye Huckel Activity Coeff
-    const void ExtendedDebyeHuckelActivity(Real *DebyeHuckelAct, int size, Real *Temperature, Real *yEtc1, Real *yEtc2)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            DebyeHuckelAct[i] = ExtendedDebyeHuckelActivity(Temperature[i], yEtc1[i], yEtc2[i]);
-        }
-    }
-
-    // Standard Debye Huckel Activity Coeff
-    const void DebyeHuckelActivity(Real *DebyeHuckelAct, int size, Real *Temperature, Real *yEtc1, Real *yEtc2)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            DebyeHuckelAct[i] = DebyeHuckelActivity(Temperature[i], yEtc1[i], yEtc2[i]);
-        }
-    }
-
     // Per cell functions:
-
     // Molality Based Wall Reaction Rate
     const Real WallReactionRateMolality(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2, Real SaturationIndex, Real WallDistance)
     {
@@ -303,49 +248,7 @@ public:
             return 0;
         }
     }
-
-    // Derivative of wall reaction rate to reactant A
-    const Real DebyeHuckelWallReactionDerivativeA(Real Temperature, Real y_A, Real y_B, Real yEtc1, Real yEtc2, Real WallDistance, Real SaturationIndex)
-    {
-        const Real kwr = wallReactionRatio(WallDistance);
-        if (kwr > SMALL) // Save computation for non-wall cells
-        {
-
-            const Real mMean = MeanMolality(y_A, y_B, yEtc1, yEtc2);
-            const Real mTot = TotalMolality(yEtc1, yEtc2);
-            const Real m_A = mTot * y_A, m_B = mTot * y_B;
-            const Real K = Equilibrium(Temperature);
-            const Real gamma = ExtendedDebyeHuckelActivity(Temperature, yEtc1, yEtc2);
-            const Real drivingMolality = DrivingMolality(m_A, m_B, mMean);
-            const Real SR = pow(SaturationIndex, 10);
-
-            return kwr * dRw_dyi(Temperature, y_A, m_A, nu_A, Z_A, mMean, SR, K, gamma, mTot, drivingMolality);
-        }
-        else
-            return 0;
-    }
-
-    // Derivative of wall reaction rate to reactant B
-    const Real DebyeHuckelWallReactionDerivativeB(Real Temperature, Real y_A, Real y_B, Real yEtc1, Real yEtc2, Real WallDistance, Real SaturationIndex)
-    {
-        const Real kwr = wallReactionRatio(WallDistance);
-        if (kwr > SMALL || y_A < SMALL) // Save computation for non-wall cells
-        {
-
-            const Real mMean = MeanMolality(y_A, y_B, yEtc1, yEtc2);
-            const Real mTot = TotalMolality(yEtc1, yEtc2);
-            const Real m_A = mTot * y_A, m_B = mTot * y_B;
-            const Real K = Equilibrium(Temperature);
-            const Real gamma = ExtendedDebyeHuckelActivity(Temperature, yEtc1, yEtc2);
-            const Real drivingMolality = DrivingMolality(m_A, m_B, mMean);
-            const Real SR = pow(SaturationIndex, 10);
-
-            return kwr * dRw_dyi(Temperature, y_B, m_B, nu_B, Z_B, mMean, SR, K, gamma, mTot, drivingMolality);
-        }
-        else
-            return 0;
-    }
-
+    
     // Returns Mean molality
     const Real MeanMolality(Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
@@ -363,8 +266,7 @@ public:
         return pow(pow(fmax(mA, SMALL), nu_A) * pow(fmax(mB, SMALL), nu_B) + SMALL, 1.0 / nu);
     }
 
-
- // Equilibrium concentration at T
+    // Equilibrium concentration at T
     const Real Equilibrium(Real T)
     {
         return EmpiricalEquilibrium(T);
@@ -387,17 +289,6 @@ public:
     {
         Real A = sqrt(2 * pi * N_A * rho_w) * pow((e * e) / (4 * pi * eps_0 * eps_r * k_b * T), 1.5); //kg/mol
         return A;
-    }
-
-    const Real DebyeHuckelActivity(Real T, Real yEtc1, Real yEtc2)
-    {
-        return exp(-DebyeHuckelParam(T) * (Z_A * Z_A) * IonicStrength(yEtc1, yEtc2));
-    }
-
-    const Real ExtendedDebyeHuckelActivity(Real T, Real yEtc1, Real yEtc2)
-    {
-        Real I = IonicStrength(yEtc1, yEtc2);
-        return exp(-DebyeHuckelParam(T) * fabs(Z_A * Z_B) * sqrt(I) / (1 + ExtendedDebyeHuckelParam(T) * sqrt(I)));
     }
 
     const Real ExtendedDebyeHuckelParam(Real T)
@@ -472,30 +363,6 @@ public:
         return (1.0 - wallReactionRatio(WallDistance)) * dV * rho * dNdt;
     }
 
-    // Saturation Equation
-    const Real ExtendedDebyeHuckelSaturationRate(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
-    {
-        return pow(MeanMolality(yA, yB, yEtc1, yEtc2) * ExtendedDebyeHuckelActivity(T, yEtc1, yEtc2), nu) / Equilibrium(T);
-    }
-
-    // Saturation Equation
-    const Real ExtendedDebyeHuckelSaturationIndex(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
-    {
-        return log10(ExtendedDebyeHuckelSaturationRate(T, yA, yB, yEtc1, yEtc2));
-    }
-
-    // Saturation Equation
-    const Real DebyeHuckelSaturationRate(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
-    {
-        return pow(MeanMolality(yA, yB, yEtc1, yEtc2) * DebyeHuckelActivity(T, yEtc1, yEtc2), nu) / Equilibrium(T);
-    }
-
-    // Saturation Equation
-    const Real DebyeHuckelSaturationIndex(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
-    {
-        return log10(DebyeHuckelSaturationRate(T, yA, yB, yEtc1, yEtc2));
-    }
-
     // Iterative saturation to avoid overreaction - not in use
     const Real IterativePitzerSaturationIndex(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
@@ -537,47 +404,12 @@ public:
         if (fmin(mA, mB) < SMALL)
             return SMALL;
 
-        const int noCorrectionSteps = 6;
-        const Real relaxationFactor = 0.8; // Important due to mathematical incorrectness of correction step
-
         const Real equilibrium = Equilibrium(T);
         const Real meanMolality = MeanMolality(mA, mB);
         const Real I = IonicStrength(yEtc1, yEtc2);
         const Real gamma = pitzerActivityCoefficient(T, I, meanMolality);
 
-        Real S;        // Resulting saturation index
-        Real Sc = 0;   // Corrected
-        Real mSat = 0; // Oversaturated molality
-        
-        S = pow(meanMolality * gamma, nu) / equilibrium;
-
-        return S;
-        
-        for (int i = 0; i < noCorrectionSteps + 1; i++)
-        {
-
-            // Correcting for change in ionic strength
-            Real newI = fmax(SMALL, I - 0.5 * mSat * (Z_A * Z_A + Z_B * Z_B));
-            Real newGamma = pitzerActivityCoefficient(T, newI, meanMolality);
-
-            //return newGamma;
-            Real m_c = fmax(SMALL, meanMolality - mSat); // Corrected m -> K
-            // Sc = SaturationRate(_equilibrium, newGamma, m_c); // Corrected Saturation --->1
-            Sc = pow(m_c * newGamma, nu) / equilibrium;
-
-            if (Sc > 1)
-            {
-                // mSat = mSat + relaxationFactor * (Sc - 1 + SMALL)/(SC + SMALL) * (fmin(mA, mB) - mSat);
-            }
-            else
-            {
-                mSat = 0;
-            }
-
-            // S = SaturationRate(_equilibrium, newGamma, _MeanMolality);
-            S = pow(meanMolality * newGamma, nu) / equilibrium;
-        }
-        return S;
+        return pow(meanMolality * gamma, nu) / equilibrium;
     }
 
 private:
