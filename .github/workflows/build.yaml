@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - run: git fetch --tags origin
+      - run: git fetch --prune --unshallow
       - name: Create Release
         env:
           MAJOR_V: "0"
