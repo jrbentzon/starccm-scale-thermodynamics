@@ -181,7 +181,7 @@ public:
     }
 
     // Nucleation Rates
-    const void NucleationRate(Real *nucleationRate, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, reaction *obj, const Real (reaction::*SaturationIndexFunction)(Real, Real, Real, Real, Real))
+    const void NucleationRate(Real *nucleationRate, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, reaction *obj, const Real (BariteReaction::*SaturationIndexFunction)(Real, Real, Real, Real, Real))
     {
         Real S;
         for (int i = 0; i < size; i++)
