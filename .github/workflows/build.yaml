@@ -52,7 +52,7 @@ jobs:
           set -e
           
           version=$(git describe --tags --abbrev=7)
-          version >> $TARGET_V
+          echo version >> $TARGET_V
           
           mkdir -p /usr/src/app/out
           cd src && g++ -DDOUBLE_PRECISION -Wno-write-strings -fPIC -shared *.cpp -o /usr/src/app/out/libuser.so 
