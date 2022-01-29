@@ -25,7 +25,7 @@ SOFTWARE.
 #ifndef CHEMISTRY_H
 #define CHEMISTRY_H
 
-#include "functions.H"
+#include "chemistry.h"
 #include "uclib.h"
 #include "math.h"
 #include <cstdlib>

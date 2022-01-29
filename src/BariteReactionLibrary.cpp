@@ -27,7 +27,7 @@ SOFTWARE.
 #include <cstdlib>
 #include "uclib.h"
 
-#include "barite.H"
+#include "barite_reaction.h"
 
 using namespace std;
 
