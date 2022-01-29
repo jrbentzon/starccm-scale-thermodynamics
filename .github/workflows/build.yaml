@@ -1,0 +1,94 @@
+name: Validate code
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate_code:
+    name: Validate code
+    runs-on: ubuntu-latest
+    container:
+      image: gcc:11-bullseye
+      credentials:
+        username: ${{ secrets.AZCR_PROD_USER }}
+        password: ${{ secrets.AZCR_PROD_TOKEN }}
+      options: -u root -w /home/app/ --mount type=tmpfs,destination=/home/app/
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile
+        run: |
+          set -e
+          
+          mkdir /home/app/out/
+          cd src && g++ -DDOUBLE_PRECISION -Wno-write-strings -fPIC -shared *.cpp -o libuser.so 
+          cp /home/app/src/libuser.so /home/app/out/
+      - name: Lint according to Google Guidelines
+        run: |
+          set -e    
+          pip install cpplint
+
+          cpplint src/*
+
+  create_release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [ validate_code ]
+    if: ${{ github.ref == 'refs/heads/main' }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow
+      - name: Create Release
+        env:
+          MAJOR_V: "0"
+          MINOR_V: "1"
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          providedMajor=$MAJOR_V
+          providedMinor=$MINOR_V
+          currentVersion=$(git describe --tags --abbrev=7)
+          currentMinor=$(echo $currentVersion | cut -d. -f2)
+          currentMajor=$(echo $currentVersion | cut -d. -f1 | cut -dv -f2)
+          if [[ $currentMajor -eq $providedMajor ]] && [[ $providedMinor -eq $currentMinor ]];
+          then
+            currentRevision=$(echo $(echo $currentVersion | rev | cut -d. -f1) | rev | cut -d- -f1)
+            nextRevision=$(( currentRevision + 1 ))
+          else
+            nextRevision='0'
+          fi
+          nextVersion="v$providedMajor.$providedMinor.$nextRevision"
+          gh release create $nextVersion --generate-notes
+
+  release_to_pypi_test:
+    name: Release distribution to test.pypi.org
+    runs-on: ubuntu-latest
+    needs: [ create_release ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8.x'
+      - name: Build .so lib
+        run: |
+          set -e
+          
+          version=$(git describe --tags --abbrev=7)
+          
+          mkdir /home/app/out/
+          cd src && g++ -DDOUBLE_PRECISION -Wno-write-strings -fPIC -shared *.cpp -o libuser.so 
+          cp /home/app/src/libuser.so /home/app/out/
+      - name: Publish distribution 📦 to github
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: /home/app/out/.so
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
