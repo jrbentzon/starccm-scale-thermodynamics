@@ -1,0 +1,23 @@
+name: Validate code
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate_code:
+    name: Validate code
+    runs-on: ubuntu-latest
+    if: ${{ github.ref != 'refs/heads/main' }}
+    container:
+      image: gcc:11-bullseye
+      options: -w /home/app/ --mount type=tmpfs,destination=/home/app/
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile
+        run: |
+          set -e
+          
+          mkdir -p /home/app/out/
+          cd src && g++ -DDOUBLE_PRECISION -Wno-write-strings -fPIC -shared *.cpp -o /home/app/out/libuser.so 
