@@ -52,6 +52,7 @@ jobs:
           set -e
           
           version=$(git describe --tags --abbrev=7)
+          version >> $TARGET_V
           
           mkdir -p /usr/src/app/out
           cd src && g++ -DDOUBLE_PRECISION -Wno-write-strings -fPIC -shared *.cpp -o /usr/src/app/out/libuser.so 
@@ -60,6 +61,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: /usr/src/app/out/libuser.so
-          tag: ${{ github.ref }}
+          tag: ${{ env.TARGET_V }}
           overwrite: true
           file_glob: true
