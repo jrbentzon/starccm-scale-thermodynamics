@@ -10,6 +10,7 @@ jobs:
   validate_code:
     name: Validate code
     runs-on: ubuntu-latest
+    if: ${{ github.ref != 'refs/heads/main' }}
     container:
       image: gcc:11-bullseye
       options: -w /home/app/ --mount type=tmpfs,destination=/home/app/
@@ -26,7 +27,6 @@ jobs:
   create_release:
     name: Create Release
     runs-on: ubuntu-latest
-    needs: [ validate_code ]
     if: ${{ github.ref == 'refs/heads/main' }}
 
     steps:
@@ -62,9 +62,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: git fetch --prune --unshallow
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.8.x'
       - name: Build .so lib
         run: |
           set -e
