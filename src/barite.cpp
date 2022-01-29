@@ -85,7 +85,7 @@ void MeanMolality(Real *result, int size, Real *yA, Real *yB, Real *yEtc_1, Real
 void ExtendedDebyeHuckelNucleationRate(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
     BariteReaction React = getBaSO4Reaction();
-    const Real (reaction::*SatFunctionPointer)(Real, Real, Real, Real, Real) = &reaction::ExtendedDebyeHuckelSaturationIndex;
+    const Real (NucleationRate::*SatFunctionPointer)(Real, Real, Real, Real, Real) = &BariteReaction::ExtendedDebyeHuckelSaturationIndex;
     React.NucleationRate(result, size, Temperature, yA, yB, yEtc_1, yEtc_2, &React, SatFunctionPointer);
 }
 
