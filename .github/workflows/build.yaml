@@ -78,9 +78,8 @@ jobs:
           
           version=$(git describe --tags --abbrev=7)
           
-          mkdir /home/app/out/
-          cd src && g++ -DDOUBLE_PRECISION -Wno-write-strings -fPIC -shared *.cpp -o libuser.so 
-          cp /home/app/src/libuser.so /home/app/out/
+          mkdir -p /home/app/out/
+          cd src && g++ -DDOUBLE_PRECISION -Wno-write-strings -fPIC -shared *.cpp -o /home/app/out/libuser.so 
       - name: Publish distribution 📦 to github
         uses: svenstaro/upload-release-action@v2
         with:
