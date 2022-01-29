@@ -15,7 +15,7 @@ jobs:
       - name: Create Release
         env:
           MAJOR_V: "0"
-          MINOR_V: "1"
+          MINOR_V: "2"
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -e
@@ -32,7 +32,8 @@ jobs:
             nextRevision='0'
           fi
           nextVersion="v$providedMajor.$providedMinor.$nextRevision"
-          gh release create $nextVersion --generate-notes
+
+          gh release create --target main $nextVersion --generate-notes
 
   release:
     name: Release distribution
