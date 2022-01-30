@@ -51,7 +51,10 @@ private:
     const Real &C_Phi;
 
     // Reaction
-    SimpleReaction &reaction;
+    const Real &nu_A;
+    const Real &nu_B;
+    const Real &Z_A;
+    const Real &Z_B;
 
 public:
     PitzerActivityModel(SimpleReaction &reaction,
@@ -62,7 +65,10 @@ public:
                                              beta_1(beta_1),
                                              beta_2(beta_2),
                                              C_Phi(C_Phi),
-                                             reaction(reaction)
+                                             nu_A(reaction.nu_A),
+                                             nu_B(reaction.nu_B),
+                                             Z_A(reaction.Z_A),
+                                             Z_B(reaction.Z_B)
     {
     }
 
@@ -71,7 +77,7 @@ public:
     {
         //return 1.5342;
         //return IonicStrength(yEtc1, yEtc2);
-        return reaction.MeanMolality(yA, yB, yEtc1, yEtc2);
+        return MeanMolality(yA, yB, yEtc1, yEtc2);
         //return this->pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yB, yEtc1, yEtc2));
     }
 
@@ -92,7 +98,7 @@ public:
 
         const Real C_gamma = 3 / 2 * C_Phi;
 
-        const Real ln_gamma = fabs(reaction.Z_A * reaction.Z_B) * f_gamma + meanMolality * (2 * reaction.nu_A * reaction.nu_B / reaction.nu()) * B_gamma + pow(meanMolality, 2) * (2 * pow(reaction.nu_A * reaction.nu_B, 1.5) / reaction.nu()) * C_gamma;
+        const Real ln_gamma = fabs(Z_A * Z_B) * f_gamma + meanMolality * (2 * nu_A * nu_B / (nu_A + nu_B)) * B_gamma + pow(meanMolality, 2) * (2 * pow(nu_A * nu_B, 1.5) / (nu_A + nu_B)) * C_gamma;
 
         return exp(ln_gamma);
     }
@@ -106,10 +112,29 @@ public:
     // Compute Ionic Strength
     const Real IonicStrength(Real yEtc1, Real yEtc2)
     {
-        const Real mTot = reaction.TotalMolality(yEtc1, yEtc2);
+        const Real mTot = TotalMolality(yEtc1, yEtc2);
         const Real m[2] = {yEtc1 * mTot, yEtc2 * mTot};
         const Real Z[2] = {1, 2};
         return ChemistryFunctions::IonicStrength(m, Z, 2);
+    }
+
+    // Total Concentration
+    const Real TotalMolality(Real &yEtc1, Real &yEtc2)
+    {
+        return pow(ChemistryFunctions::MolarMassOfWater() / (1 - (yEtc1 + yEtc2)) + SMALL, -1);
+    }
+
+    // Returns Mean molality
+    const Real MeanMolality(Real &yA, Real &yB, Real &yEtc1, Real &yEtc2)
+    {
+        const Real mTot = TotalMolality(yEtc1, yEtc2);
+        return MeanMolality(yA * mTot, yB * mTot);
+    }
+
+    // Mean Concentration
+    const Real MeanMolality(Real mA, Real mB)
+    {
+        return pow(pow(fmax(mA, SMALL), nu_A) * pow(fmax(mB, SMALL), nu_B) + SMALL, 1.0 / (nu_A + nu_B));
     }
 };
 
