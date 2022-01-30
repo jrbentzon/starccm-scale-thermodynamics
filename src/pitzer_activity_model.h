@@ -57,7 +57,7 @@ private:
 
     // Reaction
     // SimpleReaction &reaction;
-    const Real a;
+    Real a;
 
 public:
     PitzerActivityModel(Real a)
