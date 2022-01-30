@@ -56,10 +56,10 @@ private:
     const Real b = 1.2;
 
     // Reaction
-    SimpleReaction reaction;
+    SimpleReaction &reaction;
 
 public:
-    PitzerActivityModel(SimpleReaction reaction, Real beta_0, Real beta_1, Real beta_2, Real C_Phi) : beta_0(beta_0),
+    PitzerActivityModel(SimpleReaction &reaction, Real beta_0, Real beta_1, Real beta_2, Real C_Phi) : beta_0(beta_0),
                                                                                                       beta_1(beta_1),
                                                                                                       beta_2(beta_2),
                                                                                                       C_Phi(C_Phi),
@@ -68,11 +68,11 @@ public:
     }
 
     // Activity Coeffiecient (gamma)
-    Real ActicityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
+    const Real ActicityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
-        return pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yB, yEtc1, yEtc2));
+        return 1.5342;
+        //return pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yB, yEtc1, yEtc2));
     }
-
 
     // Activity coefficient from Pitzer's eq.
     const Real pitzerActivityCoefficient(Real T, Real I, Real meanMolality)

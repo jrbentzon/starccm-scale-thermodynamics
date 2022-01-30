@@ -46,7 +46,7 @@ public:
     }
 
     // Equilibrium concentration at T
-    Real Equilibrium(Real T)
+    const Real Equilibrium(Real T)
     {
         return pow(10.0, log_k + delta_h / ChemistryFunctions::R() * (1 / T0 - 1 / T));
     }

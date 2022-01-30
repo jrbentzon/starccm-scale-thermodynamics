@@ -37,24 +37,25 @@ SOFTWARE.
 class ThermodynamicReaction
 {
 public:
-    SimpleReaction reaction;
-    EquilibriumFormulation equilibriumFormulation;
-    ActivityModel activityModel;
-    SimpleNucleation nucleationModel;
+    SimpleReaction &reaction;
+    EquilibriumFormulation &equilibriumFormulation;
+    ActivityModel &activityModel;
+    SimpleNucleation &nucleationModel;
 
     // numerical
     const Real SMALL = 1e-16;
 
     // Constructor
-    ThermodynamicReaction(SimpleReaction reaction,
-                          EquilibriumFormulation equilibriumFormulation,
-                          ActivityModel activityModel,
-                          SimpleNucleation nucleationModel)
+    ThermodynamicReaction(SimpleReaction &reaction,
+                          EquilibriumFormulation &equilibriumFormulation,
+                          ActivityModel &activityModel,
+                          SimpleNucleation &nucleationModel)
         : reaction(reaction),
           activityModel(activityModel),
           equilibriumFormulation(equilibriumFormulation),
           nucleationModel(nucleationModel)
     {
+        
     }
 
     // Mean Molarity
