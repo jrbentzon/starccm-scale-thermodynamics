@@ -38,7 +38,6 @@ public:
 
     EmpiricalEquilibrium(Real A, Real B, Real C, Real D) : analytical_expression({A, B, C, D})
     {
-        //{-282.43, -8.972e-2, 5822, 113.08}
     }
 
     // Equilibrium concentration at T
