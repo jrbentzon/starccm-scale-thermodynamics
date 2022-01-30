@@ -33,11 +33,10 @@ SOFTWARE.
 #include "simple_reaction.h"
 #include "activity_model.h"
 #include "pitzer_activity_model.h"
-#include "simple_nucleation.h"
 
 using namespace std;
 
-const ThermodynamicReaction getReaction()
+static const ThermodynamicReaction getReaction()
 {
     // Reaction Model
     const Real nu_A = 1;

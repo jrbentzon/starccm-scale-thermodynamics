@@ -32,7 +32,6 @@ SOFTWARE.
 #include "equilibrium_formulation.h"
 #include "activity_model.h"
 #include "simple_reaction.h"
-#include "simple_nucleation.h"
 
 class ThermodynamicReaction
 {
