@@ -71,13 +71,11 @@ public:
     const Real MeanMolality(Real &yA, Real &yB, Real &yEtc1, Real &yEtc2)
     {
         const Real mTot = TotalMolality(yEtc1, yEtc2);
-        const Real mA = yA * mTot;
-        const Real mB = yB * mTot;
-        return MeanMolality(mA, mB);
+        return MeanMolality(yA * mTot, yB * mTot);
     }
 
     // Mean Concentration
-    const Real MeanMolality(Real &mA, Real &mB)
+    const Real MeanMolality(Real mA, Real mB)
     {
         return pow(pow(fmax(mA, SMALL), nu_A) * pow(fmax(mB, SMALL), nu_B) + SMALL, 1.0 / nu());
     }
