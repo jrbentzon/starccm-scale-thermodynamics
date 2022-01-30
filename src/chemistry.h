@@ -35,7 +35,7 @@ static Real k_b()
 
 static Real N_A()
 {
-    return 6.022140857e23;
+    return ;
 }
 
 static Real MolarMassOfWater()

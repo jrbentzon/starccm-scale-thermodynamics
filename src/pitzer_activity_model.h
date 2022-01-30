@@ -25,7 +25,7 @@ SOFTWARE.
 #ifndef PITZER_ACTIVITY_H
 #define PITZER_ACTIVITY_H
 
-#include "chemistry.h"
+//#include "chemistry.h"
 #include "uclib.h"
 #include "math.h"
 #include <cstdlib>
@@ -36,13 +36,13 @@ class PitzerActivityModel : public ActivityModel
 {
 public:
     Real SMALL = 1e-16;
-    Real N_A = ChemistryFunctions::N_A();
+    Real N_A = 6.022140857e23;
     Real pi = M_PI;
-    Real rho_w = ChemistryFunctions::densityWater();
-    Real e = ChemistryFunctions::electronicCharge();
-    Real eps_0 = ChemistryFunctions::permittivityVacuum();
-    Real eps_r = ChemistryFunctions::permittivityWater();
-    Real k_b = ChemistryFunctions::k_b();
+    Real rho_w = 997;
+    Real e = 1.60206e-19;
+    Real eps_0 = 8.8542e-12;
+    Real eps_r = 78.4;
+    Real k_b = 1.38064852e-23;
 
     // Pitzer model parameters (input)
     Real beta_0;
