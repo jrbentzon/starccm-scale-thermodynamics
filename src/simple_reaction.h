@@ -41,7 +41,13 @@ public:
 
     const Real SMALL = 1e-16;
 
-    SimpleReaction(Real& nu_A, Real& nu_B, Real& nu_P, Real& Z_A, Real& Z_B)
+    SimpleReaction(
+        const Real &nu_A,
+        const Real &nu_B,
+        const Real &nu_P,
+        const Real &Z_A,
+        const Real &Z_B
+        )
         : nu_A(nu_A),
           nu_B(nu_B),
           nu_P(nu_P),

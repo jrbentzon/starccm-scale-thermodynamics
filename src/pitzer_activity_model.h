@@ -35,35 +35,34 @@ SOFTWARE.
 class PitzerActivityModel : public ActivityModel
 {
 private:
-    const Real SMALL = 1e-16;
-    const Real N_A = ChemistryFunctions::N_A();
-    const Real pi = M_PI;
-    const Real rho_w = ChemistryFunctions::densityWater();
-    const Real e = ChemistryFunctions::electronicCharge();
-    const Real eps_0 = ChemistryFunctions::permittivityVacuum();
-    const Real eps_r = ChemistryFunctions::permittivityWater();
-    const Real k_b = ChemistryFunctions::k_b();
+    const Real &SMALL = 1e-16;
+    const Real &N_A = ChemistryFunctions::N_A();
+    const Real &pi = M_PI;
+    const Real &rho_w = ChemistryFunctions::densityWater();
+    const Real &e = ChemistryFunctions::electronicCharge();
+    const Real &eps_0 = ChemistryFunctions::permittivityVacuum();
+    const Real &eps_r = ChemistryFunctions::permittivityWater();
+    const Real &k_b = ChemistryFunctions::k_b();
 
     // Pitzer model parameters (input)
-    const Real beta_0;
-    const Real beta_1;
-    const Real beta_2;
-    const Real C_Phi;
-
-    // Pitzer model constants
-    const Real alpha_1 = 1.4;
-    const Real alpha_2 = 12;
-    const Real b = 1.2;
+    const Real &beta_0;
+    const Real &beta_1;
+    const Real &beta_2;
+    const Real &C_Phi;
 
     // Reaction
     SimpleReaction &reaction;
 
 public:
-    PitzerActivityModel(SimpleReaction &reaction, Real beta_0, Real beta_1, Real beta_2, Real C_Phi) : beta_0(beta_0),
-                                                                                                      beta_1(beta_1),
-                                                                                                      beta_2(beta_2),
-                                                                                                      C_Phi(C_Phi),
-                                                                                                      reaction(reaction)
+    PitzerActivityModel(SimpleReaction &reaction,
+                        const Real &beta_0,
+                        const Real &beta_1,
+                        const Real &beta_2,
+                        const Real &C_Phi) : beta_0(beta_0),
+                                             beta_1(beta_1),
+                                             beta_2(beta_2),
+                                             C_Phi(C_Phi),
+                                             reaction(reaction)
     {
     }
 
@@ -79,6 +78,10 @@ public:
     // Activity coefficient from Pitzer's eq.
     const Real pitzerActivityCoefficient(Real T, Real I, Real meanMolality)
     {
+        const Real alpha_1 = 1.4;
+        const Real alpha_2 = 12;
+        const Real b = 1.2;
+
         if (I < SMALL)
             return 1;
 
@@ -108,7 +111,6 @@ public:
         const Real Z[2] = {1, 2};
         return ChemistryFunctions::IonicStrength(m, Z, 2);
     }
-
 };
 
 #endif // PITZER_ACTIVITY_MODEL_H
