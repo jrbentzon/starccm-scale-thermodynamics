@@ -29,76 +29,43 @@ SOFTWARE.
 #include "equilibrium_formulation.h"
 #include "hoff_equilibrium.h"
 #include "chemistry.h"
-#include "thermodynamic_reaction.h"
 #include "simple_reaction.h"
 #include "activity_model.h"
 #include "pitzer_activity_model.h"
-#include "simple_nucleation.h"
 
 using namespace std;
 
-const ThermodynamicReaction getReaction()
+void EquilibriumConstant(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    // Reaction Model
-    const Real nu_A = 1;
-    const Real nu_B = 1;
-    const Real nu_P = -1;
-    const Real Z_A = 2;
-    const Real Z_B = -2;
-
-    const SimpleReaction reactionModel = SimpleReaction(nu_A, nu_B, nu_P, Z_A, Z_B);
-
     // Equilibrium Model
     const Real log_k = -9.87;
     const Real delta_h = 6.35 * 4186.80;
     const Real T0 = ChemistryFunctions::T0();
-    const EquilibriumFormulation equilibriumModel = HoffEquilibrium(log_k, delta_h, T0);
+    HoffEquilibrium equilibriumModel = HoffEquilibrium(log_k, delta_h, T0);
 
-    // Acticity Coefficient Model
-    const Real beta_0 = 0;
-    const Real beta_1 = 0;
-    const Real beta_2 = 0;
-    const Real C_phi = 0;
-    const ActivityModel activityModel = PitzerActivityModel(reactionModel, beta_0, beta_1, beta_2, C_phi);
-
-    // Nucleation Model
-    const Real MolarMass = 0.1000894;
-    const Real sigma = 40e-3;
-    const Real theta = 10.0 / 180.0 * M_PI;
-    const Real rho = 2710;
-    const Real A_n = 1;
-    SimpleNucleation nucleationModel = SimpleNucleation(reactionModel, MolarMass, sigma, theta, rho, A_n);
-
-    return ThermodynamicReaction(reactionModel, equilibriumModel, activityModel, nucleationModel);
-}
-
-void EquilibriumConstant(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
-{
-    ThermodynamicReaction React = getReaction();
-    React.Equilibrium(result, size, Temperature);
+    for (int i = 0; i < size; i++)
+    {
+        result[i] = equilibriumModel.Equilibrium(Temperature[i]);
+    }
 }
 
 void PitzerActivity(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    ThermodynamicReaction React = getReaction();
-    React.ActivityCoefficient(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
-}
-void PitzerSaturationIndex(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
-{
-    ThermodynamicReaction React = getReaction();
-    React.SaturationIndex(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
-}
-
-void IonicStrength(Real *result, int size, Real *yEtc_1, Real *yEtc_2)
-{
-    ThermodynamicReaction React = getReaction();
-    React.IonicStrength(result, size, yEtc_1, yEtc_2);
-}
-
-void MeanMolality(Real *result, int size, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
-{
-    ThermodynamicReaction React = getReaction();
-    React.MeanMolality(result, size, yA, yB, yEtc_1, yEtc_2);
+    // Acticity Coefficient Model
+    static Real nu_A = 1;
+    static Real nu_B = 1;
+    static Real nu_P = -1;
+    static Real Z_A = 2;
+    static Real Z_B = -2;
+    static Real beta_0 = 0;
+    static Real beta_1 = 0;
+    static Real beta_2 = 0;
+    static Real C_phi = 0;
+    PitzerActivityModel activityModel = PitzerActivityModel(nu_A, nu_B, Z_A, Z_B, beta_0, beta_1, beta_2, C_phi);
+    for (int i = 0; i < size; i++)
+    {
+        result[i] = activityModel.ActivityCoefficient(Temperature[i], yA[i], yB[i], yEtc_1[i], yEtc_2[i]);
+    }
 }
 
 void uclib()
@@ -106,27 +73,10 @@ void uclib()
     ucfunc((void *)EquilibriumConstant, "ScalarFieldFunction", "Equilibrium Constant");
     ucarg((void *)EquilibriumConstant, "Cell", "Temperature", sizeof(Real));
 
-    ucfunc((void *)IonicStrength, "ScalarFieldFunction", "Ionic Strength");
-    ucarg((void *)IonicStrength, "Cell", "$yEtc_1-", sizeof(Real));
-    ucarg((void *)IonicStrength, "Cell", "$yEtc_2-", sizeof(Real));
-
-    ucfunc((void *)MeanMolality, "ScalarFieldFunction", "Mean Molality");
-    ucarg((void *)MeanMolality, "Cell", "$yBa_2+", sizeof(double));
-    ucarg((void *)MeanMolality, "Cell", "$ySO4_2-", sizeof(Real));
-    ucarg((void *)MeanMolality, "Cell", "$yEtc_1-", sizeof(Real));
-    ucarg((void *)MeanMolality, "Cell", "$yEtc_2-", sizeof(Real));
-
     ucfunc((void *)PitzerActivity, "ScalarFieldFunction", "Pitzer Activity Coefficient");
     ucarg((void *)PitzerActivity, "Cell", "Temperature", sizeof(Real));
-    ucarg((void *)PitzerActivity, "Cell", "$yBa_2+", sizeof(double));
+    ucarg((void *)PitzerActivity, "Cell", "$yBa_2+", sizeof(Real));
     ucarg((void *)PitzerActivity, "Cell", "$ySO4_2-", sizeof(Real));
     ucarg((void *)PitzerActivity, "Cell", "$yEtc_1-", sizeof(Real));
     ucarg((void *)PitzerActivity, "Cell", "$yEtc_2-", sizeof(Real));
-
-    ucfunc((void *)PitzerSaturationIndex, "ScalarFieldFunction", "Pitzer Saturation Index");
-    ucarg((void *)PitzerSaturationIndex, "Cell", "Temperature", sizeof(Real));
-    ucarg((void *)PitzerSaturationIndex, "Cell", "$yBa_2+", sizeof(Real));
-    ucarg((void *)PitzerSaturationIndex, "Cell", "$ySO4_2-", sizeof(Real));
-    ucarg((void *)PitzerSaturationIndex, "Cell", "$yEtc_1-", sizeof(Real));
-    ucarg((void *)PitzerSaturationIndex, "Cell", "$yEtc_2-", sizeof(Real));
 }

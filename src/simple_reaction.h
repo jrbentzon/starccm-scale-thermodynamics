@@ -33,30 +33,42 @@ SOFTWARE.
 class SimpleReaction
 {
 public:
-    const Real nu_A;
-    const Real nu_B;
-    const Real nu_P;
-    const Real Z_A;
-    const Real Z_B;
+    const Real &nu_A;
+    const Real &nu_B;
+    const Real &nu_P;
+    const Real &Z_A;
+    const Real &Z_B;
 
     const Real SMALL = 1e-16;
 
-    SimpleReaction(Real nu_A, Real nu_B, Real nu_P, Real Z_A, Real Z_B) : nu_A(nu_A), nu_B(nu_B), nu_P(nu_P), Z_A(Z_A), Z_B(Z_B)
+    SimpleReaction(
+        const Real &nu_A,
+        const Real &nu_B,
+        const Real &nu_P,
+        const Real &Z_A,
+        const Real &Z_B
+        )
+        : nu_A(nu_A),
+          nu_B(nu_B),
+          nu_P(nu_P),
+          Z_A(Z_A),
+          Z_B(Z_B)
     {
     }
 
-    const Real nu(){
+    const Real nu()
+    {
         return nu_A + nu_B;
     }
 
     // Total Concentration
-    const Real TotalMolality(Real yEtc1, Real yEtc2)
+    const Real TotalMolality(Real &yEtc1, Real &yEtc2)
     {
         return pow(ChemistryFunctions::MolarMassOfWater() / (1 - (yEtc1 + yEtc2)) + SMALL, -1);
     }
 
     // Returns Mean molality
-    const Real MeanMolality(Real yA, Real yB, Real yEtc1, Real yEtc2)
+    const Real MeanMolality(Real &yA, Real &yB, Real &yEtc1, Real &yEtc2)
     {
         const Real mTot = TotalMolality(yEtc1, yEtc2);
         return MeanMolality(yA * mTot, yB * mTot);

@@ -34,7 +34,9 @@ class EquilibriumFormulation
 {
 public:
     // Equilibrium concentration at T
-    Real Equilibrium(Real T);
+    virtual const Real Equilibrium(Real T) {
+        return 0;
+    };
 };
 
 #endif // EQUILIBRIUM_FROMULATION_H

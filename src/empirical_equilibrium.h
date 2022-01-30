@@ -42,7 +42,7 @@ public:
     }
 
     // Equilibrium concentration at T
-    Real Equilibrium(Real T)
+    const Real Equilibrium(Real T)
     {
         return pow(10.0, analytical_expression[0] + analytical_expression[1] * T + analytical_expression[2] / T + analytical_expression[3] * log10(T));
     }
