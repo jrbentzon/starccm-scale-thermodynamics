@@ -98,8 +98,7 @@ public:
 
         const Real ln_gamma = fabs(Z_A * Z_B) * f_gamma + meanMolality * (2 * nu_A * nu_B / (nu_A + nu_B)) * B_gamma + pow(meanMolality, 2) * (2 * pow(nu_A * nu_B, 1.5) / (nu_A + nu_B)) * C_gamma;
 
-        return ln_gamma;
-        // return exp(ln_gamma);
+        return exp(ln_gamma);
     }
 
     ///A
