@@ -89,7 +89,7 @@ public:
     {
         for (int i = 0; i < size; i++)
         {
-            gamma[i] = activityModel.ActicityCoefficient(Temperature[i], yA[i], yB[i], yEtc1[i], yEtc2[i]);
+            gamma[i] = activityModel.ActivityCoefficient(Temperature[i], yA[i], yB[i], yEtc1[i], yEtc2[i]);
         }
     }
 
@@ -221,7 +221,7 @@ public:
         const Real equilibrium = equilibriumFormulation.Equilibrium(T);
         const Real meanMolality = MeanMolality(mA, mB);
         const Real I = IonicStrength(yEtc1, yEtc2);
-        const Real gamma = activityModel.ActicityCoefficient(T, yA, yB, yEtc1, yEtc2);
+        const Real gamma = activityModel.ActivityCoefficient(T, yA, yB, yEtc1, yEtc2);
 
         return pow(meanMolality * gamma, reaction.nu()) / equilibrium;
     }

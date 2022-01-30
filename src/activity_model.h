@@ -34,7 +34,7 @@ class ActivityModel
 {
 public:
     // Activity Coeffiecient (gamma)
-    virtual Real ActicityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2) = 0; 
+    virtual Real getActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2) = 0; 
 };
 
 #endif // ACTIVITY_MODEL_H

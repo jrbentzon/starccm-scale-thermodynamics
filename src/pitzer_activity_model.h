@@ -73,7 +73,7 @@ public:
     {
     }
 
-    Real ActicityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2){
+    Real getActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2){
         return 123;
     }
 /*
