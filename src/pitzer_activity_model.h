@@ -44,7 +44,6 @@ public:
     // Reaction
     SimpleReaction &reaction;
 
-public:
     PitzerActivityModel(SimpleReaction &reaction,
                         Real beta_0,
                         Real beta_1,
