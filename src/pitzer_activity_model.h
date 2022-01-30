@@ -35,14 +35,14 @@ SOFTWARE.
 class PitzerActivityModel : public ActivityModel
 {
 public:
-    // Real SMALL = 1e-16;
-    // Real N_A = ChemistryFunctions::N_A();
-    // Real pi = M_PI;
-    // Real rho_w = ChemistryFunctions::densityWater();
-    // Real e = ChemistryFunctions::electronicCharge();
-    // Real eps_0 = ChemistryFunctions::permittivityVacuum();
-    // Real eps_r = ChemistryFunctions::permittivityWater();
-    // Real k_b = ChemistryFunctions::k_b();
+    Real SMALL = 1e-16;
+    Real N_A = ChemistryFunctions::N_A();
+    Real pi = M_PI;
+    Real rho_w = ChemistryFunctions::densityWater();
+    Real e = ChemistryFunctions::electronicCharge();
+    Real eps_0 = ChemistryFunctions::permittivityVacuum();
+    Real eps_r = ChemistryFunctions::permittivityWater();
+    Real k_b = ChemistryFunctions::k_b();
 
     // Pitzer model parameters (input)
     Real beta_0;
