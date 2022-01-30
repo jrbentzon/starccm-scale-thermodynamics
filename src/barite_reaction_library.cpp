@@ -71,7 +71,7 @@ const ThermodynamicReaction getReaction()
     const Real A_n = 1;
     SimpleNucleation nucleationModel = SimpleNucleation(reactionModel, MolarMass, sigma, theta, rho, A_n);
 
-    return ThermodynamicReaction(reactionModel, equilibriumModel, simpleActivity, nucleationModel);
+    return ThermodynamicReaction(reactionModel, equilibriumModel, activityModel, nucleationModel);
 }
 
 void EquilibriumConstant(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
