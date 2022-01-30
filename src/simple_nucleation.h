@@ -34,7 +34,7 @@ SOFTWARE.
 class SimpleNucleation
 {
 public:
-    SimpleReaction reaction;
+    SimpleReaction *reaction;
 
     // Nucleation
     const Real MolarMass;
@@ -51,19 +51,19 @@ public:
     const Real DrivingMolalitySmoothingGap = 1e-8; // molality used for derivatives - not a physical property
 
     SimpleNucleation(
-        SimpleReaction reaction,
+        SimpleReaction *reaction,
         Real MolarMass,
         Real sigma,
         Real theta,
         Real rho,
         Real A_n)
-        : reaction(reaction),
-          MolarMass(MolarMass),
+        : MolarMass(MolarMass),
           sigma(sigma),
           theta(theta),
           rho(rho),
           A_n(A_n)
     {
+        this->reaction = reaction;
     }
 
     // Contact Angle Function
@@ -132,10 +132,10 @@ public:
     // Molality Based Wall Reaction Rate
     const Real WallReactionRateMolality(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2, Real SaturationIndex, Real WallDistance)
     {
-        const Real mTot = reaction.TotalMolality(yEtc1, yEtc2);
+        const Real mTot = reaction->TotalMolality(yEtc1, yEtc2);
         const Real mA = yA * mTot;
         const Real mB = yB * mTot;
-        const Real meanMolality = reaction.MeanMolality(mA, mB);
+        const Real meanMolality = reaction->MeanMolality(mA, mB);
         const Real SR = pow(SaturationIndex, 10);
         if (SR - 1.0 < SMALL)
             return 0;
@@ -228,7 +228,7 @@ public:
         if (m_i < SMALL)
             return 0;
 
-        return mMean * nu_i / (reaction.nu() * m_i);
+        return mMean * nu_i / (reaction->nu() * m_i);
     }
 
     // SaturationRate to activity
