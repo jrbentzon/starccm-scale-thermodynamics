@@ -37,23 +37,23 @@ SOFTWARE.
 class ThermodynamicReaction
 {
 public:
-    SimpleReaction& reaction;
-    EquilibriumFormulation& equilibriumFormulation;
-    ActivityModel& activityModel;
-    SimpleNucleation& nucleationModel;
+    SimpleReaction &reaction;
+    EquilibriumFormulation &equilibriumFormulation;
+    ActivityModel &activityModel;
+    SimpleNucleation &nucleationModel;
 
     // numerical
     const Real SMALL = 1e-16;
 
     // Constructor
-    ThermodynamicReaction(SimpleReaction& reaction,
-                          EquilibriumFormulation& equilibriumFormulation,
-                          ActivityModel& activityModel,
-                          SimpleNucleation& nucleationModel)
-                          : reaction(reaction),
-                          equilibriumFormulation(equilibriumFormulation),
-                          activityModel(activityModel),
-                          nucleationModel(nucleationModel)
+    ThermodynamicReaction(SimpleReaction &reaction,
+                          EquilibriumFormulation &equilibriumFormulation,
+                          ActivityModel &activityModel,
+                          SimpleNucleation &nucleationModel)
+        : reaction(reaction),
+          equilibriumFormulation(equilibriumFormulation),
+          activityModel(activityModel),
+          nucleationModel(nucleationModel)
     {
     }
 
@@ -89,7 +89,7 @@ public:
     {
         for (int i = 0; i < size; i++)
         {
-            gamma[i] = activityModel.ActicityCoefficient(Temperature[i], yA[i], yB[i], yEtc1[i], yEtc2[i]);
+            gamma[i] = 123;// activityModel.ActicityCoefficient(Temperature[i], yA[i], yB[i], yEtc1[i], yEtc2[i]);
         }
     }
 

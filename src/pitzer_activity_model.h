@@ -74,7 +74,7 @@ public:
     }
 
     // Activity Coeffiecient (gamma)
-    Real ActicityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
+    Real ActicityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2) override
     {
         return 123; //pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yB, yEtc1, yEtc2));
     }
