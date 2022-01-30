@@ -60,15 +60,7 @@ const ThermodynamicReaction getReaction()
     const Real C_phi = 0;
     PitzerActivityModel activityModel = PitzerActivityModel(reactionModel, beta_0, beta_1, beta_2, C_phi);
 
-    // Nucleation Model
-    const Real MolarMass = 0.1000894;
-    const Real sigma = 40e-3;
-    const Real theta = 10.0 / 180.0 * M_PI;
-    const Real rho = 2710;
-    const Real A_n = 1;
-    SimpleNucleation nucleationModel = SimpleNucleation(reactionModel, MolarMass, sigma, theta, rho, A_n);
-
-    return ThermodynamicReaction(reactionModel, equilibriumModel, activityModel, nucleationModel);
+    return ThermodynamicReaction(reactionModel, equilibriumModel, activityModel);
 }
 
 void EquilibriumConstant(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
@@ -82,17 +74,6 @@ void PitzerActivity(Real *result, int size, Real *Temperature, Real *yA, Real *y
     ThermodynamicReaction React = getReaction();
     React.ActivityCoefficient(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
 }
-void PitzerSaturationIndex(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
-{
-    ThermodynamicReaction React = getReaction();
-    React.SaturationIndex(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
-}
-
-void IonicStrength(Real *result, int size, Real *yEtc_1, Real *yEtc_2)
-{
-    ThermodynamicReaction React = getReaction();
-    React.IonicStrength(result, size, yEtc_1, yEtc_2);
-}
 
 void MeanMolality(Real *result, int size, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
@@ -104,10 +85,6 @@ void uclib()
 {
     ucfunc((void *)EquilibriumConstant, "ScalarFieldFunction", "Equilibrium Constant");
     ucarg((void *)EquilibriumConstant, "Cell", "Temperature", sizeof(Real));
-
-    ucfunc((void *)IonicStrength, "ScalarFieldFunction", "Ionic Strength");
-    ucarg((void *)IonicStrength, "Cell", "$yEtc_1-", sizeof(Real));
-    ucarg((void *)IonicStrength, "Cell", "$yEtc_2-", sizeof(Real));
 
     ucfunc((void *)MeanMolality, "ScalarFieldFunction", "Mean Molality");
     ucarg((void *)MeanMolality, "Cell", "$yBa_2+", sizeof(double));
@@ -121,11 +98,4 @@ void uclib()
     ucarg((void *)PitzerActivity, "Cell", "$ySO4_2-", sizeof(Real));
     ucarg((void *)PitzerActivity, "Cell", "$yEtc_1-", sizeof(Real));
     ucarg((void *)PitzerActivity, "Cell", "$yEtc_2-", sizeof(Real));
-
-    ucfunc((void *)PitzerSaturationIndex, "ScalarFieldFunction", "Pitzer Saturation Index");
-    ucarg((void *)PitzerSaturationIndex, "Cell", "Temperature", sizeof(Real));
-    ucarg((void *)PitzerSaturationIndex, "Cell", "$yBa_2+", sizeof(Real));
-    ucarg((void *)PitzerSaturationIndex, "Cell", "$ySO4_2-", sizeof(Real));
-    ucarg((void *)PitzerSaturationIndex, "Cell", "$yEtc_1-", sizeof(Real));
-    ucarg((void *)PitzerSaturationIndex, "Cell", "$yEtc_2-", sizeof(Real));
 }
