@@ -37,7 +37,6 @@ class PitzerActivityModel : public ActivityModel
 public:
     const Real &SMALL = 1e-16;
     const Real &N_A = ChemistryFunctions::N_A();
-    const Real pi = M_PI;
     const Real &rho_w = ChemistryFunctions::densityWater();
     const Real &e = ChemistryFunctions::electronicCharge();
     const Real &eps_0 = ChemistryFunctions::permittivityVacuum();
@@ -90,7 +89,6 @@ public:
         if (I < SMALL)
             return 1;
 
-        return T;
         const Real A = DebyeHuckelParam(T); //kg/mol
         return A;
         const Real B_gamma = 2 * beta_0 + 2 * beta_1 / ((alpha_1 * alpha_1) * I) * (1 - (1 + alpha_1 * sqrt(I) - 0.5 * (alpha_1 * alpha_1) * I) * exp(-alpha_1 * sqrt(I))) + 2 * beta_2 / ((alpha_2 * alpha_2) * I) * (1 - (1 + alpha_2 * sqrt(I) - 0.5 * (alpha_2 * alpha_2) * I) * exp(-alpha_2 * sqrt(I)));
@@ -109,7 +107,7 @@ public:
     ///A
     const Real DebyeHuckelParam(Real T)
     {
-        return sqrt(2 * pi * N_A * rho_w) * pow((e * e) / (4 * pi * eps_0 * eps_r * k_b * T), 1.5); //kg/mol
+        return sqrt(2 * M_PI * N_A * rho_w) * pow((e * e) / (4 * M_PI * eps_0 * eps_r * k_b * T), 1.5); //kg/mol
     }
 
     // Compute Ionic Strength
