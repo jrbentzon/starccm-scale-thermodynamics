@@ -105,7 +105,7 @@ public:
     const Real DebyeHuckelParam(Real T)
     {
         const Real &rho_w = 997;
-        return sqrt(37.83822695e23 * rho_w) * pow(0.2131077129 / T, 1.5); //kg/mol
+        return sqrt(2 * 3.14159265358979323846 * 6.022140857e23 * rho_w) * pow(2.131077129519e-7 / T, 1.5); //kg/mol
     }
 
     // Compute Ionic Strength
