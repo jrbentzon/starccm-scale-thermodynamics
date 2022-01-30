@@ -70,7 +70,8 @@ public:
     // Activity Coeffiecient (gamma)
     const Real ActicityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
-        return 1.5342;
+        //return 1.5342;
+        return IonicStrength(yEtc1, yEtc2);
         //return pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yB, yEtc1, yEtc2));
     }
 
