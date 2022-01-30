@@ -34,7 +34,7 @@ SOFTWARE.
 
 class PitzerActivityModel : public ActivityModel
 {
-private:
+public:
     const Real &SMALL = 1e-16;
     const Real &N_A = ChemistryFunctions::N_A();
     const Real &pi = M_PI;
@@ -56,8 +56,10 @@ private:
     const Real &Z_A;
     const Real &Z_B;
 
-public:
-    PitzerActivityModel(SimpleReaction &reaction,
+    PitzerActivityModel(const Real &nu_A,
+                        const Real &nu_B,
+                        const Real &Z_A,
+                        const Real &Z_B,
                         const Real &beta_0,
                         const Real &beta_1,
                         const Real &beta_2,
@@ -65,15 +67,15 @@ public:
                                              beta_1(beta_1),
                                              beta_2(beta_2),
                                              C_Phi(C_Phi),
-                                             nu_A(reaction.nu_A),
-                                             nu_B(reaction.nu_B),
-                                             Z_A(reaction.Z_A),
-                                             Z_B(reaction.Z_B)
+                                             nu_A(nu_A),
+                                             nu_B(nu_B),
+                                             Z_A(Z_A),
+                                             Z_B(Z_B)
     {
     }
 
     // Activity Coeffiecient (gamma)
-    const Real ActicityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
+    const Real ActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
         //return 1.5342;
         //return IonicStrength(yEtc1, yEtc2);
