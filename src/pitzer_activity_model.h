@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef PITZER_ACTIVITY_MODEL_H
-#define PITZER_ACTIVITY_MODEL_H
+#ifndef PITZER_ACTIVITY_H
+#define PITZER_ACTIVITY_H
 
 #include "chemistry.h"
 #include "uclib.h"
@@ -35,14 +35,14 @@ SOFTWARE.
 class PitzerActivityModel : public ActivityModel
 {
 public:
-    Real SMALL = 1e-16;
-    Real N_A = ChemistryFunctions::N_A();
-    Real pi = M_PI;
-    Real rho_w = ChemistryFunctions::densityWater();
-    Real e = ChemistryFunctions::electronicCharge();
-    Real eps_0 = ChemistryFunctions::permittivityVacuum();
-    Real eps_r = ChemistryFunctions::permittivityWater();
-    Real k_b = ChemistryFunctions::k_b();
+    // Real SMALL = 1e-16;
+    // Real N_A = ChemistryFunctions::N_A();
+    // Real pi = M_PI;
+    // Real rho_w = ChemistryFunctions::densityWater();
+    // Real e = ChemistryFunctions::electronicCharge();
+    // Real eps_0 = ChemistryFunctions::permittivityVacuum();
+    // Real eps_r = ChemistryFunctions::permittivityWater();
+    // Real k_b = ChemistryFunctions::k_b();
 
     // Pitzer model parameters (input)
     Real beta_0;
@@ -74,42 +74,42 @@ public:
 
     Real getActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
-        return 0.555;//pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yA, yEtc1, yEtc2));
+        return 0.987;//pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yA, yEtc1, yEtc2));
     };
 
-    // Activity coefficient from Pitzer's eq.
-    Real pitzerActivityCoefficient(Real T, Real I, Real meanMolality)
-    {
-        if (I < SMALL)
-            return 1;
+    // // Activity coefficient from Pitzer's eq.
+    // Real pitzerActivityCoefficient(Real T, Real I, Real meanMolality)
+    // {
+    //     if (I < SMALL)
+    //         return 1;
 
-        Real A = DebyeHuckelParam(T); //kg/mol
-        Real B_gamma = 2 * beta_0 + 2 * beta_1 / ((alpha_1 * alpha_1) * I) * (1 - (1 + alpha_1 * sqrt(I) - 0.5 * (alpha_1 * alpha_1) * I) * exp(-alpha_1 * sqrt(I))) + 2 * beta_2 / ((alpha_2 * alpha_2) * I) * (1 - (1 + alpha_2 * sqrt(I) - 0.5 * (alpha_2 * alpha_2) * I) * exp(-alpha_2 * sqrt(I)));
+    //     Real A = DebyeHuckelParam(T); //kg/mol
+    //     Real B_gamma = 2 * beta_0 + 2 * beta_1 / ((alpha_1 * alpha_1) * I) * (1 - (1 + alpha_1 * sqrt(I) - 0.5 * (alpha_1 * alpha_1) * I) * exp(-alpha_1 * sqrt(I))) + 2 * beta_2 / ((alpha_2 * alpha_2) * I) * (1 - (1 + alpha_2 * sqrt(I) - 0.5 * (alpha_2 * alpha_2) * I) * exp(-alpha_2 * sqrt(I)));
 
-        Real f_gamma = -A / 3 * (sqrt(I) / (1 + b * sqrt(I)) + 2 / b * log(1 + b * sqrt(I)));
+    //     Real f_gamma = -A / 3 * (sqrt(I) / (1 + b * sqrt(I)) + 2 / b * log(1 + b * sqrt(I)));
 
-        Real C_gamma = 3 / 2 * C_Phi;
+    //     Real C_gamma = 3 / 2 * C_Phi;
 
-        Real ln_gamma = fabs(reaction.Z_A * reaction.Z_B) * f_gamma + meanMolality * (2 * reaction.nu_A * reaction.nu_B / reaction.nu()) * B_gamma + pow(meanMolality, 2) * (2 * pow(reaction.nu_A * reaction.nu_B, 1.5) / reaction.nu()) * C_gamma;
+    //     Real ln_gamma = fabs(reaction.Z_A * reaction.Z_B) * f_gamma + meanMolality * (2 * reaction.nu_A * reaction.nu_B / reaction.nu()) * B_gamma + pow(meanMolality, 2) * (2 * pow(reaction.nu_A * reaction.nu_B, 1.5) / reaction.nu()) * C_gamma;
 
-        return exp(ln_gamma);
-    }
+    //     return exp(ln_gamma);
+    // };
 
-    ///A
-    Real DebyeHuckelParam(Real T)
-    {
-        Real A = sqrt(2 * pi * N_A * rho_w) * pow((e * e) / (4 * pi * eps_0 * eps_r * k_b * T), 1.5); //kg/mol
-        return A;
-    }
+    // ///A
+    // Real DebyeHuckelParam(Real T)
+    // {
+    //     Real A = sqrt(2 * pi * N_A * rho_w) * pow((e * e) / (4 * pi * eps_0 * eps_r * k_b * T), 1.5); //kg/mol
+    //     return A;
+    // };
 
-    // Compute Ionic Strength
-    Real IonicStrength(Real yEtc1, Real yEtc2)
-    {
-        Real mTot = reaction.TotalMolality(yEtc1, yEtc2);
-        Real m[2] = {yEtc1 * mTot, yEtc2 * mTot};
-        Real Z[2] = {1, 2};
-        return ChemistryFunctions::IonicStrength(m, Z, 2);
-    }
+    // // Compute Ionic Strength
+    // Real IonicStrength(Real yEtc1, Real yEtc2)
+    // {
+    //     Real mTot = reaction.TotalMolality(yEtc1, yEtc2);
+    //     Real m[2] = {yEtc1 * mTot, yEtc2 * mTot};
+    //     Real Z[2] = {1, 2};
+    //     return ChemistryFunctions::IonicStrength(m, Z, 2);
+    // };
 };
 
-#endif // PITZER_ACTIVITY_MODEL_H
+#endif // PITZER_ACTIVITY_H
