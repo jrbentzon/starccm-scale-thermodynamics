@@ -33,8 +33,9 @@ SOFTWARE.
 class ActivityModel
 {
 public:
-    // Activity Coeffiecient (gamma)
-    virtual Real getActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2) = 0; 
+    // Equilibrium concentration at T
+    virtual Real getActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2){
+        return Real(0);
+    }
 };
-
 #endif // ACTIVITY_MODEL_H
