@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef EQUILIBRIUM_FROMULATION_H
-#define EQUILIBRIUM_FROMULATION_H
+#ifndef EQUILIBRIUM_FORMULATION_H
+#define EQUILIBRIUM_FORMULATION_H
 
 #include "chemistry.h"
 #include "uclib.h"
@@ -34,7 +34,9 @@ class EquilibriumFormulation
 {
 public:
     // Equilibrium concentration at T
-    Real Equilibrium(Real T);
+    virtual Real Equilibrium(Real T){
+        return Real(0);
+    }
 };
 
-#endif // EQUILIBRIUM_FROMULATION_H
+#endif // EQUILIBRIUM_FORMULATION_H
