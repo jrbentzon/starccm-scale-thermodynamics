@@ -76,7 +76,7 @@ public:
         if (I < SMALL)
             return 1.0;
 
-        Real A = DebyeHuckelParam(T); //kg/mol
+        Real A = this->DebyeHuckelParam(T); //kg/mol
         Real B_gamma = 2 * beta_0 + 2 * beta_1 / ((alpha_1 * alpha_1) * I) * (1 - (1 + alpha_1 * sqrt(I) - 0.5 * (alpha_1 * alpha_1) * I) * exp(-alpha_1 * sqrt(I))) + 2 * beta_2 / ((alpha_2 * alpha_2) * I) * (1 - (1 + alpha_2 * sqrt(I) - 0.5 * (alpha_2 * alpha_2) * I) * exp(-alpha_2 * sqrt(I)));
 
         Real f_gamma = -A / 3 * (sqrt(I) / (1 + b * sqrt(I)) + 2 / b * log(1 + b * sqrt(I)));
@@ -106,7 +106,7 @@ public:
     // Compute Ionic Strength
     Real IonicStrength(Real yEtc1, Real yEtc2)
     {
-        return 1;
+        return 0;
         Real mTot = reaction.TotalMolality(yEtc1, yEtc2);
         Real m[2] = {yEtc1 * mTot, yEtc2 * mTot};
         Real Z[2] = {1, 2};
