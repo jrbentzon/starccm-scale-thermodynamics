@@ -111,7 +111,19 @@ public:
         Real mTot = reaction.TotalMolality(yEtc1, yEtc2);
         Real m[2] = {yEtc1 * mTot, yEtc2 * mTot};
         Real Z[2] = {1, 2};
-        return ChemistryFunctions::IonicStrength(m, Z, 2);
+        Real I = 0;
+        for (int j = 0; j < 2; j++)
+        {
+            I = I + m[j] * pow(Z[j], 2); //0.5 should be taken outside loop for better performance
+        }
+
+        I = 0.5 * I;
+        // AVOID zero
+        if (I < 1e-18)
+        {
+            I = 1e-18;
+        }
+        return I;
     };
 };
 
