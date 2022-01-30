@@ -34,11 +34,11 @@ SOFTWARE.
 class SimpleActivityModel : public ActivityModel
 {
 public:
-    const Real a;
-
     Real alpha_1 = 1.4;
     Real alpha_2 = 12;
     Real b = 1.2;
+
+    const Real a;
 
     SimpleActivityModel(Real a) : a(a)
     {
