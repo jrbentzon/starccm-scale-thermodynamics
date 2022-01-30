@@ -58,7 +58,7 @@ public:
     }
 
     // Mean Molarity
-    const void MeanMolality(Real *meanMolality, int size, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
+    void MeanMolality(Real *meanMolality, int size, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
     {
         for (int i = 0; i < size; i++)
         {
@@ -67,7 +67,7 @@ public:
     }
 
     // Equilibrium Function
-    const void Equilibrium(Real *equilibrium, int size, Real *Temperature)
+    void Equilibrium(Real *equilibrium, int size, Real *Temperature)
     {
         for (int i = 0; i < size; i++)
         {
@@ -76,7 +76,7 @@ public:
     }
 
     // Ionic Strength
-    const void IonicStrength(Real *ionicStrength, int size, Real *yEtc1, Real *yEtc2)
+    void IonicStrength(Real *ionicStrength, int size, Real *yEtc1, Real *yEtc2)
     {
         for (int i = 0; i < size; i++)
         {
@@ -85,7 +85,7 @@ public:
     }
 
     // Pitzers activitity coeff
-    const void ActivityCoefficient(Real *gamma, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
+    void ActivityCoefficient(Real *gamma, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
     {
         for (int i = 0; i < size; i++)
         {
@@ -94,7 +94,7 @@ public:
     }
 
     // Reaction rate of wall deposition in molality
-    const void WallReactionRateMolality(Real *wallReactionRate, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, Real *SaturationIndex, Real *WallDistance)
+    void WallReactionRateMolality(Real *wallReactionRate, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, Real *SaturationIndex, Real *WallDistance)
     {
         for (int i = 0; i < size; i++)
         {
@@ -103,7 +103,7 @@ public:
     }
 
     // Reaction rate of wall deposition in mole fraction
-    const void WallReactionRateMoleFraction(Real *wallReactionRate, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, Real *SaturationIndex, Real *WallDistance)
+    void WallReactionRateMoleFraction(Real *wallReactionRate, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, Real *SaturationIndex, Real *WallDistance)
     {
         Real mR;
         for (int i = 0; i < size; i++)
@@ -114,7 +114,7 @@ public:
     }
 
     // Nucleation Rates
-    const void NucleationRate(Real *nucleationRate, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, ThermodynamicReaction *obj, const Real (ThermodynamicReaction::*SaturationIndexFunction)(Real, Real, Real, Real, Real))
+    void NucleationRate(Real *nucleationRate, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2, ThermodynamicReaction *obj, const Real (ThermodynamicReaction::*SaturationIndexFunction)(Real, Real, Real, Real, Real))
     {
         Real S;
         for (int i = 0; i < size; i++)
@@ -125,7 +125,7 @@ public:
     }
 
     // Saturation Index Function
-    const void SaturationIndex(Real *saturationIndex, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
+    void SaturationIndex(Real *saturationIndex, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
     {
         for (int i = 0; i < size; i++)
         {
@@ -134,7 +134,7 @@ public:
     }
 
     // Pitzer Wall Component A concentration
-    const void WallConcentrationA(Real *WallConcentration, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
+    void WallConcentrationA(Real *WallConcentration, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
     {
         for (int i = 0; i < size; i++)
         {
@@ -143,7 +143,7 @@ public:
     }
 
     // Pitzer Wall Component B concentration
-    const void WallConcentrationB(Real *WallConcentration, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
+    void WallConcentrationB(Real *WallConcentration, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc1, Real *yEtc2)
     {
         for (int i = 0; i < size; i++)
         {
@@ -152,7 +152,7 @@ public:
     }
 
     // Thermodynamic Equilibrium.
-    const void ActivityCorrectedEquilibrium(Real *correctedEquilibrium, int size, Real *equilibrium, Real *activity)
+    void ActivityCorrectedEquilibrium(Real *correctedEquilibrium, int size, Real *equilibrium, Real *activity)
     {
         for (int i = 0; i < size; i++)
         {
@@ -161,30 +161,30 @@ public:
     }
 
     // Returns Mean molality
-    const Real MeanMolality(Real yA, Real yB, Real yEtc1, Real yEtc2)
+    Real MeanMolality(Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
         const Real mTot = TotalMolality(yEtc1, yEtc2);
         return MeanMolality(yA * mTot, yB * mTot);
     }
 
-    const Real TotalMolality(Real yEtc1, Real yEtc2)
+    Real TotalMolality(Real yEtc1, Real yEtc2)
     {
         return reaction.TotalMolality(yEtc1, yEtc2);
     }
     // Mean Concentration
-    const Real MeanMolality(Real mA, Real mB)
+    Real MeanMolality(Real mA, Real mB)
     {
         return reaction.MeanMolality(mA, mB);
     }
 
     // Iterative saturation to avoid overreaction - not in use
-    const Real SaturationIndex(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
+    Real SaturationIndex(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
         return log10(SaturationRate(T, yA, yB, yEtc1, yEtc2));
     }
 
     // Wall saturation model
-    const Real WallConcentrationA(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
+    Real WallConcentrationA(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
         double SR = SaturationRate(T, yA, yB, yEtc1, yEtc2);
         double mA = TotalMolality(yEtc1, yEtc2) * yA;
@@ -192,7 +192,7 @@ public:
     }
 
     // Wall saturation model
-    const Real WallConcentrationB(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
+    Real WallConcentrationB(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
         double SR = SaturationRate(T, yA, yB, yEtc1, yEtc2);
         double mB = TotalMolality(yEtc1, yEtc2) * yB;
@@ -200,7 +200,7 @@ public:
     }
 
     // Compute Ionic Strength
-    const Real IonicStrength(Real yEtc1, Real yEtc2)
+    Real IonicStrength(Real yEtc1, Real yEtc2)
     {
         const Real mTot = TotalMolality(yEtc1, yEtc2);
         const Real m[2] = {yEtc1 * mTot, yEtc2 * mTot};
@@ -209,7 +209,7 @@ public:
     }
 
     // Solve for saturation correcting for change in activity on reaction
-    const Real SaturationRate(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
+    Real SaturationRate(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
         const Real mTot = TotalMolality(yEtc1, yEtc2);
         Real mA = yA * mTot;
