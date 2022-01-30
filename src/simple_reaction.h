@@ -62,20 +62,20 @@ public:
     }
 
     // Total Concentration
-    const Real TotalMolality(Real yEtc1, Real yEtc2)
+    const Real TotalMolality(Real &yEtc1, Real &yEtc2)
     {
         return pow(ChemistryFunctions::MolarMassOfWater() / (1 - (yEtc1 + yEtc2)) + SMALL, -1);
     }
 
     // Returns Mean molality
-    const Real MeanMolality(Real yA, Real yB, Real yEtc1, Real yEtc2)
+    const Real MeanMolality(Real &yA, Real &yB, Real &yEtc1, Real &yEtc2)
     {
         const Real mTot = TotalMolality(yEtc1, yEtc2);
         return MeanMolality(yA * mTot, yB * mTot);
     }
 
     // Mean Concentration
-    const Real MeanMolality(Real mA, Real mB)
+    const Real MeanMolality(Real &mA, Real &mB)
     {
         return pow(pow(fmax(mA, SMALL), nu_A) * pow(fmax(mB, SMALL), nu_B) + SMALL, 1.0 / nu());
     }
