@@ -35,7 +35,6 @@ SOFTWARE.
 class PitzerActivityModel : public ActivityModel
 {
 public:
-    
     // Pitzer model parameters (input)
     Real beta_0;
     Real beta_1;
@@ -74,7 +73,7 @@ public:
         Real b = 1.2;
 
         Real SMALL = 1e-16;
-        
+
         if (I < SMALL)
             return 1.0;
 
@@ -116,13 +115,7 @@ public:
         {
             I = I + m[j] * pow(Z[j], 2); //0.5 should be taken outside loop for better performance
         }
-
         I = 0.5 * I;
-        // AVOID zero
-        if (I < 1e-18)
-        {
-            I = 1e-18;
-        }
         return I;
     };
 };
