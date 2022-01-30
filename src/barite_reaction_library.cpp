@@ -33,6 +33,7 @@ SOFTWARE.
 #include "simple_reaction.h"
 #include "activity_model.h"
 #include "pitzer_activity_model.h"
+#include "simple_activity_model.h"
 #include "simple_nucleation.h"
 
 using namespace std;
@@ -60,6 +61,7 @@ const ThermodynamicReaction getReaction()
     const Real beta_2 = 0;
     const Real C_phi = 0;
     PitzerActivityModel activityModel = PitzerActivityModel(reactionModel, beta_0, beta_1, beta_2, C_phi);
+    SimpleActivityModel simple = SimpleActivityModel(0.123456);
 
     // Nucleation Model
     const Real MolarMass = 0.1000894;
@@ -69,7 +71,7 @@ const ThermodynamicReaction getReaction()
     const Real A_n = 1;
     SimpleNucleation nucleationModel = SimpleNucleation(reactionModel, MolarMass, sigma, theta, rho, A_n);
 
-    return ThermodynamicReaction(reactionModel, equilibriumModel, activityModel, nucleationModel);
+    return ThermodynamicReaction(reactionModel, equilibriumModel, simple, nucleationModel);
 }
 
 void EquilibriumConstant(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
