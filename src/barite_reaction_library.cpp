@@ -38,37 +38,37 @@ SOFTWARE.
 
 using namespace std;
 
-const ThermodynamicReaction getReaction()
+ThermodynamicReaction getReaction()
 {
     // Reaction Model
-    const Real nu_A = 1;
-    const Real nu_B = 1;
-    const Real nu_P = -1;
-    const Real Z_A = 2;
-    const Real Z_B = -2;
+    Real nu_A = 1;
+    Real nu_B = 1;
+    Real nu_P = -1;
+    Real Z_A = 2;
+    Real Z_B = -2;
 
     SimpleReaction reactionModel = SimpleReaction(nu_A, nu_B, nu_P, Z_A, Z_B);
 
     // Equilibrium Model
-    const Real log_k = -9.87;
-    const Real delta_h = 6.35 * 4186.80;
-    const Real T0 = ChemistryFunctions::T0();
+    Real log_k = -9.87;
+    Real delta_h = 6.35 * 4186.80;
+    Real T0 = ChemistryFunctions::T0();
     HoffEquilibrium equilibriumModel = HoffEquilibrium(log_k, delta_h, T0);
 
     // Acticity Coefficient Model
-    const Real beta_0 = 0;
-    const Real beta_1 = 0;
-    const Real beta_2 = 0;
-    const Real C_phi = 0;
-    PitzerActivityModel activityModel = PitzerActivityModel(0.987);
-    SimpleActivityModel simpleActivity = SimpleActivityModel(0.987);
+    Real beta_0 = 0;
+    Real beta_1 = 0;
+    Real beta_2 = 0;
+    Real C_phi = 0;
+    PitzerActivityModel activityModel = PitzerActivityModel(reactionModel, beta_0, beta_1, beta_2, C_phi);
+    SimpleActivityModel simple = SimpleActivityModel(0.987);
 
     // Nucleation Model
-    const Real MolarMass = 0.1000894;
-    const Real sigma = 40e-3;
-    const Real theta = 10.0 / 180.0 * M_PI;
-    const Real rho = 2710;
-    const Real A_n = 1;
+    Real MolarMass = 0.1000894;
+    Real sigma = 40e-3;
+    Real theta = 10.0 / 180.0 * M_PI;
+    Real rho = 2710;
+    Real A_n = 1;
     SimpleNucleation nucleationModel = SimpleNucleation(reactionModel, MolarMass, sigma, theta, rho, A_n);
 
     return ThermodynamicReaction(reactionModel, equilibriumModel, activityModel, nucleationModel);
