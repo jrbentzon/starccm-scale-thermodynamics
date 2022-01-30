@@ -39,11 +39,10 @@ public:
     Real alpha_2 = 12;
     Real b = 1.2;
 
-    Real a;
+    const Real a;
 
 
-    PitzerActivityModel(Real ab)
-        : a(ab)
+    PitzerActivityModel(Real ab): a(ab)
     {
     }
 
