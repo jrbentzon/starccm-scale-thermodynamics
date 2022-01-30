@@ -36,9 +36,12 @@ class SimpleActivityModel : public ActivityModel
 public:
     const Real a;
 
+    Real alpha_1 = 1.4;
+    Real alpha_2 = 12;
+    Real b = 1.2;
+
     SimpleActivityModel(Real a) : a(a)
     {
-
     }
 
     Real getActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)

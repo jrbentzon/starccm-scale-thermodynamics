@@ -42,14 +42,12 @@ public:
 
     PitzerActivityModel(Real a): a(a)
     {
-
     }
 
     Real getActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
         return a;
     };
-
 };
 
 #endif // PITZER_ACTIVITY_MODEL_H
