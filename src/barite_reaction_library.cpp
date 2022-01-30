@@ -26,47 +26,78 @@ SOFTWARE.
 #include <math.h>
 #include <cstdlib>
 #include "uclib.h"
-
-#include "barite_reaction.h"
+#include "equilibrium_formulation.h"
+#include "hoff_equilibrium.h"
+#include "chemistry.h"
+#include "thermodynamic_reaction.h"
+#include "simple_reaction.h"
+#include "activity_model.h"
+#include "pitzer_activity_model.h"
+#include "simple_nucleation.h"
 
 using namespace std;
 
-const BariteReaction getBaSO4Reaction()
+const ThermodynamicReaction getReaction()
 {
+    // Reaction Model
     const Real nu_A = 1;
     const Real nu_B = 1;
     const Real nu_P = -1;
     const Real Z_A = 2;
     const Real Z_B = -2;
-    return BariteReaction(nu_A, nu_B, nu_P, Z_A, Z_B);
+
+    const SimpleReaction reactionModel = SimpleReaction(nu_A, nu_B, nu_P, Z_A, Z_B);
+
+    // Equilibrium Model
+    const Real log_k = -9.87;
+    const Real delta_h = 6.35 * 4186.80;
+    const Real T0 = ChemistryFunctions::T0();
+    const EquilibriumFormulation equilibriumModel = HoffEquilibrium(log_k, delta_h, T0);
+
+    // Acticity Coefficient Model
+    const Real beta_0 = 0;
+    const Real beta_1 = 0;
+    const Real beta_2 = 0;
+    const Real C_phi = 0;
+    const ActivityModel activityModel = PitzerActivityModel(reactionModel, beta_0, beta_1, beta_2, C_phi);
+
+    // Nucleation Model
+    const Real MolarMass = 0.1000894;
+    const Real sigma = 40e-3;
+    const Real theta = 10.0 / 180.0 * M_PI;
+    const Real rho = 2710;
+    const Real A_n = 1;
+    SimpleNucleation nucleationModel = SimpleNucleation(reactionModel, MolarMass, sigma, theta, rho, A_n);
+
+    return ThermodynamicReaction(reactionModel, equilibriumModel, activityModel, nucleationModel);
 }
 
 void EquilibriumConstant(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    BariteReaction React = getBaSO4Reaction();
+    ThermodynamicReaction React = getReaction();
     React.Equilibrium(result, size, Temperature);
 }
 
 void PitzerActivity(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    BariteReaction React = getBaSO4Reaction();
-    React.pitzerActivityCoefficient(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
+    ThermodynamicReaction React = getReaction();
+    React.ActivityCoefficient(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
 }
 void PitzerSaturationIndex(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    BariteReaction React = getBaSO4Reaction();
-    React.PitzerSaturationIndex(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
+    ThermodynamicReaction React = getReaction();
+    React.SaturationIndex(result, size, Temperature, yA, yB, yEtc_1, yEtc_2);
 }
 
 void IonicStrength(Real *result, int size, Real *yEtc_1, Real *yEtc_2)
 {
-    BariteReaction React = getBaSO4Reaction();
+    ThermodynamicReaction React = getReaction();
     React.IonicStrength(result, size, yEtc_1, yEtc_2);
 }
 
 void MeanMolality(Real *result, int size, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
 {
-    BariteReaction React = getBaSO4Reaction();
+    ThermodynamicReaction React = getReaction();
     React.MeanMolality(result, size, yA, yB, yEtc_1, yEtc_2);
 }
 

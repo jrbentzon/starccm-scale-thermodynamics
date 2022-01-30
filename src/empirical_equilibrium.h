@@ -22,35 +22,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <stdio.h>
+#ifndef EMPIRICAL_EQUILIBRIUM_H
+#define EMPIRICAL_EQUILIBRIUM_H
 
-#ifndef UCLIB_H
-#define UCLIB_H
-#if DOUBLE_PRECISION
-typedef double Real;
-#else
-typedef float Real;
-#endif
-typedef double CoordReal;
+#include "chemistry.h"
+#include "uclib.h"
+#include "math.h"
+#include <cstdlib>
+#include "equilibrium_formulation.h"
 
-#ifdef __cplusplus
-extern "C"
+class EmpiricalEquilibrium : public EquilibriumFormulation
 {
-#endif
-#if defined(WIN32) || defined(_WINDOWS) || defined(_WINNT)
-#define USERFUNCTION_EXPORT __declspec(dllexport)
-#define USERFUNCTION_IMPORT __declspec(dllimport)
-#else
-#define USERFUNCTION_EXPORT
-#define USERFUNCTION_IMPORT
-#endif
+public:
+    const Real analytical_expression[4];
 
-    extern void USERFUNCTION_IMPORT ucarg(void *, char *, char *, int);
-    extern void USERFUNCTION_IMPORT ucfunc(void *, char *, char *);
-    extern void USERFUNCTION_IMPORT ucfunction(void *, char *, char *, int, ...);
+    EmpiricalEquilibrium(Real A, Real B, Real C, Real D) : analytical_expression({A, B, C, D})
+    {
+        //{-282.43, -8.972e-2, 5822, 113.08}
+    }
 
-    void USERFUNCTION_EXPORT uclib();
-#ifdef __cplusplus
-}
-#endif
-#endif
+    // Equilibrium concentration at T
+    Real Equilibrium(Real T)
+    {
+        return pow(10.0, analytical_expression[0] + analytical_expression[1] * T + analytical_expression[2] / T + analytical_expression[3] * log10(T));
+    }
+};
+
+#endif // EMPIRICAL_EQUILIBRIUM_H
