@@ -89,7 +89,7 @@ public:
     {
         for (int i = 0; i < size; i++)
         {
-            gamma[i] = 123;// activityModel.ActicityCoefficient(Temperature[i], yA[i], yB[i], yEtc1[i], yEtc2[i]);
+            gamma[i] = activityModel.ActicityCoefficient(Temperature[i], yA[i], yB[i], yEtc1[i], yEtc2[i]);
         }
     }
 
