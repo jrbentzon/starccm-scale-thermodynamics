@@ -56,22 +56,27 @@ private:
     const Real b = 1.2;
 
     // Reaction
-    SimpleReaction *reaction;
+    SimpleReaction &reaction;
 
 public:
-    PitzerActivityModel(SimpleReaction &reaction, Real beta_0, Real beta_1, Real beta_2, Real C_Phi) : beta_0(beta_0),
-                                                                                                       beta_1(beta_1),
-                                                                                                       beta_2(beta_2),
-                                                                                                       C_Phi(C_Phi)
+    PitzerActivityModel(SimpleReaction &reaction,
+                        Real beta_0,
+                        Real beta_1,
+                        Real beta_2,
+                        Real C_Phi)
+        : beta_0(beta_0),
+          beta_1(beta_1),
+          beta_2(beta_2),
+          C_Phi(C_Phi),
+          reaction(reaction)
 
     {
-        this->reaction = &reaction;
     }
 
     // Activity Coeffiecient (gamma)
     Real ActicityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
-        return pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction->MeanMolality(yA, yB, yEtc1, yEtc2));
+        return pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yB, yEtc1, yEtc2));
     }
 
     // Activity coefficient from Pitzer's eq.
@@ -87,7 +92,7 @@ public:
 
         const Real C_gamma = 3 / 2 * C_Phi;
 
-        const Real ln_gamma = fabs(reaction->Z_A * reaction->Z_B) * f_gamma + meanMolality * (2 * reaction->nu_A * reaction->nu_B / reaction->nu()) * B_gamma + pow(meanMolality, 2) * (2 * pow(reaction->nu_A * reaction->nu_B, 1.5) / reaction->nu()) * C_gamma;
+        const Real ln_gamma = fabs(reaction.Z_A * reaction.Z_B) * f_gamma + meanMolality * (2 * reaction.nu_A * reaction.nu_B / reaction.nu()) * B_gamma + pow(meanMolality, 2) * (2 * pow(reaction.nu_A * reaction.nu_B, 1.5) / reaction.nu()) * C_gamma;
 
         return exp(ln_gamma);
     }
@@ -102,7 +107,7 @@ public:
     // Compute Ionic Strength
     const Real IonicStrength(Real yEtc1, Real yEtc2)
     {
-        const Real mTot = reaction->TotalMolality(yEtc1, yEtc2);
+        const Real mTot = reaction.TotalMolality(yEtc1, yEtc2);
         const Real m[2] = {yEtc1 * mTot, yEtc2 * mTot};
         const Real Z[2] = {1, 2};
         return ChemistryFunctions::IonicStrength(m, Z, 2);

@@ -59,7 +59,7 @@ const ThermodynamicReaction getReaction()
     const Real beta_1 = 0;
     const Real beta_2 = 0;
     const Real C_phi = 0;
-    ActivityModel activityModel = PitzerActivityModel(reactionModel, beta_0, beta_1, beta_2, C_phi);
+    PitzerActivityModel activityModel = PitzerActivityModel(reactionModel, beta_0, beta_1, beta_2, C_phi);
 
     // Nucleation Model
     const Real MolarMass = 0.1000894;
