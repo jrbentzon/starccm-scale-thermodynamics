@@ -51,7 +51,7 @@ public:
     const Real DrivingMolalitySmoothingGap = 1e-8; // molality used for derivatives - not a physical property
 
     SimpleNucleation(
-        SimpleReaction *reaction,
+        SimpleReaction& reaction,
         Real MolarMass,
         Real sigma,
         Real theta,
@@ -63,7 +63,7 @@ public:
           rho(rho),
           A_n(A_n)
     {
-        this->reaction = reaction;
+        this->reaction = &reaction;
     }
 
     // Contact Angle Function

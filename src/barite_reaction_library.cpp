@@ -59,7 +59,7 @@ const ThermodynamicReaction getReaction()
     const Real beta_1 = 0;
     const Real beta_2 = 0;
     const Real C_phi = 0;
-    ActivityModel activityModel = PitzerActivityModel(&reactionModel, beta_0, beta_1, beta_2, C_phi);
+    ActivityModel activityModel = PitzerActivityModel(reactionModel, beta_0, beta_1, beta_2, C_phi);
 
     // Nucleation Model
     const Real MolarMass = 0.1000894;
@@ -67,9 +67,9 @@ const ThermodynamicReaction getReaction()
     const Real theta = 10.0 / 180.0 * M_PI;
     const Real rho = 2710;
     const Real A_n = 1;
-    SimpleNucleation nucleationModel = SimpleNucleation(&reactionModel, MolarMass, sigma, theta, rho, A_n);
+    SimpleNucleation nucleationModel = SimpleNucleation(reactionModel, MolarMass, sigma, theta, rho, A_n);
 
-    return ThermodynamicReaction(&reactionModel, &equilibriumModel, &activityModel, &nucleationModel);
+    return ThermodynamicReaction(reactionModel, equilibriumModel, activityModel, nucleationModel);
 }
 
 void EquilibriumConstant(Real *result, int size, Real *Temperature, Real *yA, Real *yB, Real *yEtc_1, Real *yEtc_2)
