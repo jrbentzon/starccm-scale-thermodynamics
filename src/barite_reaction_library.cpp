@@ -86,14 +86,14 @@ void uclib()
     ucarg((void *)EquilibriumConstant, "Cell", "Temperature", sizeof(Real));
 
     ucfunc((void *)MeanMolality, "ScalarFieldFunction", "Mean Molality");
-    ucarg((void *)MeanMolality, "Cell", "$yBa_2+", sizeof(double));
+    ucarg((void *)MeanMolality, "Cell", "$yBa_2+", sizeof(Real));
     ucarg((void *)MeanMolality, "Cell", "$ySO4_2-", sizeof(Real));
     ucarg((void *)MeanMolality, "Cell", "$yEtc_1-", sizeof(Real));
     ucarg((void *)MeanMolality, "Cell", "$yEtc_2-", sizeof(Real));
 
     ucfunc((void *)PitzerActivity, "ScalarFieldFunction", "Pitzer Activity Coefficient");
     ucarg((void *)PitzerActivity, "Cell", "Temperature", sizeof(Real));
-    ucarg((void *)PitzerActivity, "Cell", "$yBa_2+", sizeof(double));
+    ucarg((void *)PitzerActivity, "Cell", "$yBa_2+", sizeof(Real));
     ucarg((void *)PitzerActivity, "Cell", "$ySO4_2-", sizeof(Real));
     ucarg((void *)PitzerActivity, "Cell", "$yEtc_1-", sizeof(Real));
     ucarg((void *)PitzerActivity, "Cell", "$yEtc_2-", sizeof(Real));
