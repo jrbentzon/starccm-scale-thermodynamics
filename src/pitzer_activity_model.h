@@ -51,16 +51,17 @@ private:
     // const Real C_Phi;
 
     // Pitzer model constants
-    // const Real alpha_1 = 1.4;
-    // const Real alpha_2 = 12;
-    // const Real b = 1.2;
+    Real alpha_1 = 1.4;
+    Real alpha_2 = 12;
+    Real b = 1.2;
 
     // Reaction
     // SimpleReaction &reaction;
     const Real a;
 
 public:
-    PitzerActivityModel(Real a) : a(a)
+    PitzerActivityModel(Real a)
+        : a(a)
     {
     }
 
