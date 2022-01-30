@@ -60,7 +60,7 @@ const ThermodynamicReaction getReaction()
     const Real beta_1 = 0;
     const Real beta_2 = 0;
     const Real C_phi = 0;
-    PitzerActivityModel activityModel = PitzerActivityModel(reactionModel, beta_0, beta_1, beta_2, C_phi);
+    PitzerActivityModel activityModel = PitzerActivityModel(0.987);
     SimpleActivityModel simple = SimpleActivityModel(0.123456);
 
     // Nucleation Model
