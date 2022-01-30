@@ -42,7 +42,7 @@ public:
     const Real a;
 
 
-    PitzerActivityModel(Real ab): a(ab)
+    PitzerActivityModel(Real a): a(a)
     {
     }
 
