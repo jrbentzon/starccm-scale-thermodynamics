@@ -30,7 +30,6 @@ SOFTWARE.
 #include "math.h"
 #include <cstdlib>
 #include "activity_model.h"
-#include "simple_reaction.h"
 
 class PitzerActivityModel : public ActivityModel
 {
@@ -41,9 +40,9 @@ public:
 
     const Real a;
 
-
     PitzerActivityModel(Real a): a(a)
     {
+
     }
 
     Real getActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)

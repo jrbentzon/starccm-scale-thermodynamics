@@ -34,14 +34,13 @@ SOFTWARE.
 class SimpleActivityModel : public ActivityModel
 {
 public:
-    const Real a; // FROM PREEQC
+    const Real a;
 
     SimpleActivityModel(Real a) : a(a)
     {
 
     }
 
-    // Equilibrium concentration at T
     Real getActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
         return a;
