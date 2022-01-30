@@ -12,7 +12,7 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
+s
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,35 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <stdio.h>
+#ifndef ACTIVITY_MODEL_H
+#define ACTIVITY_MODEL_H
 
-#ifndef UCLIB_H
-#define UCLIB_H
-#if DOUBLE_PRECISION
-typedef double Real;
-#else
-typedef float Real;
-#endif
-typedef double CoordReal;
+#include "chemistry.h"
+#include "uclib.h"
+#include "math.h"
+#include <cstdlib>
 
-#ifdef __cplusplus
-extern "C"
+class ActivityModel
 {
-#endif
-#if defined(WIN32) || defined(_WINDOWS) || defined(_WINNT)
-#define USERFUNCTION_EXPORT __declspec(dllexport)
-#define USERFUNCTION_IMPORT __declspec(dllimport)
-#else
-#define USERFUNCTION_EXPORT
-#define USERFUNCTION_IMPORT
-#endif
+public:
+    // Activity Coeffiecient (gamma)
+    Real ActicityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2);
+};
 
-    extern void USERFUNCTION_IMPORT ucarg(void *, char *, char *, int);
-    extern void USERFUNCTION_IMPORT ucfunc(void *, char *, char *);
-    extern void USERFUNCTION_IMPORT ucfunction(void *, char *, char *, int, ...);
-
-    void USERFUNCTION_EXPORT uclib();
-#ifdef __cplusplus
-}
-#endif
-#endif
+#endif // ACTIVITY_MODEL_H
