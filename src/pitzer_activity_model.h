@@ -107,7 +107,8 @@ public:
     // Compute Ionic Strength
     Real IonicStrength(Real yEtc1, Real yEtc2)
     {
-        Real mTot = 1;//reaction.TotalMolality(yEtc1, yEtc2);
+        return 1;
+        Real mTot = reaction.TotalMolality(yEtc1, yEtc2);
         Real m[2] = {yEtc1 * mTot, yEtc2 * mTot};
         Real Z[2] = {1, 2};
         Real I = 0;
