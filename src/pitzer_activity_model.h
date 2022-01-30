@@ -74,7 +74,7 @@ public:
 
     Real getActivityCoefficient(Real T, Real yA, Real yB, Real yEtc1, Real yEtc2)
     {
-        return pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yA, yEtc1, yEtc2));
+        return 0.2222;//pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yA, yEtc1, yEtc2));
     }
 
     // Activity coefficient from Pitzer's eq.
