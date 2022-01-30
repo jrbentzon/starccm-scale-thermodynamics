@@ -55,7 +55,7 @@ jobs:
           echo "target_v=$version" >> $GITHUB_ENV
           
           mkdir -p /usr/src/app/out
-          cd src && g++ -DDOUBLE_PRECISION -Wno-write-strings -fPIC -shared *.cpp -o /usr/src/app/out/libuser.so 
+          cd src && g++ -DDOUBLE_PRECISION -O3 -Wno-write-strings -fPIC -shared *.cpp -o /usr/src/app/out/libuser.so 
       - name: Publish library
         uses: svenstaro/upload-release-action@v2
         with:
