@@ -28,37 +28,37 @@ SOFTWARE.
 namespace ChemistryFunctions
 {
 
-static const Real k_b()
+static Real k_b()
 {
     return 1.38064852e-23;
 }
 
-static const Real N_A()
+static Real N_A()
 {
     return 6.022140857e23;
 }
 
-static const Real MolarMassOfWater()
+static Real MolarMassOfWater()
 {
     return 18.01528e-3;
 }
 
-static const Real R()
+static Real R()
 {
     return N_A() * k_b(); // should be precompiled
 }
 
-static const Real T0()
+static Real T0()
 {
     return 273.15 + 25;
 }
 
-static const Real electronicCharge()
+static Real electronicCharge()
 {
     return 1.60206e-19;
 }
 
-static const Real permittivityVacuum()
+static Real permittivityVacuum()
 {
     return 8.8542e-12;
 }

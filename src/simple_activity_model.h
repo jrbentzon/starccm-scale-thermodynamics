@@ -38,7 +38,7 @@ public:
     Real alpha_2 = 12;
     Real b = 1.2;
 
-    const Real a;
+    Real a;
 
     SimpleActivityModel(Real a) : a(a)
     {
