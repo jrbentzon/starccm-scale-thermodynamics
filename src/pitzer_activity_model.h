@@ -72,7 +72,8 @@ public:
     {
         //return 1.5342;
         //return IonicStrength(yEtc1, yEtc2);
-        return pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yB, yEtc1, yEtc2));
+        return reaction.MeanMolality(yA, yB, yEtc1, yEtc2);
+        //return this->pitzerActivityCoefficient(T, IonicStrength(yEtc1, yEtc2), reaction.MeanMolality(yA, yB, yEtc1, yEtc2));
     }
 
     // Activity coefficient from Pitzer's eq.
@@ -96,8 +97,7 @@ public:
     ///A
     const Real DebyeHuckelParam(Real T)
     {
-        Real A = sqrt(2 * pi * N_A * rho_w) * pow((e * e) / (4 * pi * eps_0 * eps_r * k_b * T), 1.5); //kg/mol
-        return A;
+        return sqrt(2 * pi * N_A * rho_w) * pow((e * e) / (4 * pi * eps_0 * eps_r * k_b * T), 1.5); //kg/mol
     }
 
     // Compute Ionic Strength
@@ -108,7 +108,6 @@ public:
         const Real Z[2] = {1, 2};
         return ChemistryFunctions::IonicStrength(m, Z, 2);
     }
-
 
 };
 
