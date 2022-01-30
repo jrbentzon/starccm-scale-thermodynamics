@@ -37,7 +37,7 @@ class PitzerActivityModel : public ActivityModel
 public:
     const Real &SMALL = 1e-16;
     const Real &N_A = ChemistryFunctions::N_A();
-    const Real &pi = M_PI;
+    const Real pi = M_PI;
     const Real &rho_w = ChemistryFunctions::densityWater();
     const Real &e = ChemistryFunctions::electronicCharge();
     const Real &eps_0 = ChemistryFunctions::permittivityVacuum();
@@ -93,6 +93,7 @@ public:
         const Real A = DebyeHuckelParam(T); //kg/mol
         const Real B_gamma = 2 * beta_0 + 2 * beta_1 / ((alpha_1 * alpha_1) * I) * (1 - (1 + alpha_1 * sqrt(I) - 0.5 * (alpha_1 * alpha_1) * I) * exp(-alpha_1 * sqrt(I))) + 2 * beta_2 / ((alpha_2 * alpha_2) * I) * (1 - (1 + alpha_2 * sqrt(I) - 0.5 * (alpha_2 * alpha_2) * I) * exp(-alpha_2 * sqrt(I)));
 
+        reurn B_gamma;
         const Real f_gamma = -A / 3 * (sqrt(I) / (1 + b * sqrt(I)) + 2 / b * log(1 + b * sqrt(I)));
 
         const Real C_gamma = 3 / 2 * C_Phi;
