@@ -60,8 +60,8 @@ private:
     Real a;
 
 public:
-    PitzerActivityModel(Real a)
-        : a(a)
+    PitzerActivityModel(Real ab)
+        : a(ab)
     {
     }
 
