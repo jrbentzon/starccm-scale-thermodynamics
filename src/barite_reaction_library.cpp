@@ -50,7 +50,7 @@ static const ThermodynamicReaction getReaction()
     const Real log_k = -9.87;
     const Real delta_h = 6.35 * 4186.80;
     const Real T0 = ChemistryFunctions::T0();
-    EquilibriumFormulation equilibriumModel = HoffEquilibrium(log_k, delta_h, T0);
+    HoffEquilibrium equilibriumModel = HoffEquilibrium(log_k, delta_h, T0);
 
     // Acticity Coefficient Model
     const Real beta_0 = 0;
